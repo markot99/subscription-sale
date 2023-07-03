@@ -1,7 +1,3 @@
 {
-  "title": "Wilkommen in React",
-  "description": {
-    "part1": "Ich bin part 1",
-    "part2": "Ich bin part 2"
-  }
+  "appname": "Aboverkauf"
 }
