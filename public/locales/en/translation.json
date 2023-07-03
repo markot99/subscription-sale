@@ -1,3 +1,32 @@
 {
-  "appname": "Subscription-Sale"
+  "appname": "Subscription-Sale",
+  "address": {
+    "title": "Title",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "street": "Street",
+    "streetNumber": "Nr.",
+    "postcode": "Postcode",
+    "city": "Ort",
+    "country": "Country"
+  },
+  "title": {
+    "mr": "Mr.",
+    "mrs": "Mrs.",
+    "other": "Other"
+  },
+  "subscriptionPreview": {
+    "yourSubscription": "Your subscription:"
+  },
+  "delivery": {
+    "title": "Delivery",
+    "address": "Delivery address",
+    "edition": "Edition",
+    "deliveryDays": "Delivery days",
+    "deliveryFrom": "Delivery from",
+    "price": "Your Price:",
+    "priceUnit": "EUR / Month",
+    "order": "Order",
+    "refresh": "Refresh"
+  }
 }

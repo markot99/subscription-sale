@@ -1,3 +1,32 @@
 {
-  "appname": "Aboverkauf"
+  "appname": "Aboverkauf",
+  "address": {
+    "title": "Anrede",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "street": "Straße",
+    "streetNumber": "Nr.",
+    "postcode": "PLZ",
+    "city": "Ort",
+    "country": "Land"
+  },
+  "title": {
+    "mr": "Herr",
+    "mrs": "Frau",
+    "other": "Andere"
+  },
+  "subscriptionPreview": {
+    "yourSubscription": "Ihr Abo:"
+  },
+  "delivery": {
+    "title": "Lieferung",
+    "address": "Lieferadresse",
+    "edition": "Ausgabe",
+    "deliveryDays": "Liefertage",
+    "deliveryFrom": "Lieferung ab",
+    "price": "Ihr Preis:",
+    "priceUnit": "EUR / Monat",
+    "order": "Bestellen",
+    "refresh": "Aktualisieren"
+  }
 }
