@@ -1,8 +1,8 @@
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 //import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 //import { DeliveryAddress } from '../../models/DeliveryAddress'
-import Address from './Address/Address'
+import Address from '../Address/Address'
 import Delivery from './Delivery/Delivery'
 import SubscriptionPreview from './SubscriptionPreview/SubscriptionPreview'
 
@@ -21,7 +21,7 @@ function Configurator() {
   })*/
 
   return (
-    <Box padding={'1em'}>
+    <Box>
       <Grid container spacing={4} alignItems={'stretch'}>
         <Grid item xs={12} md={3} order={{ xs: 1, md: 1 }}>
           <Box
@@ -37,6 +37,8 @@ function Configurator() {
           <SubscriptionPreview />
         </Grid>
         <Grid item xs={12} md={8} order={{ xs: 3, md: 3 }}>
+          <Typography variant='h4'>{t('delivery.address')}</Typography>
+          <br />
           <Address />
         </Grid>
         <Grid item xs={12} md={4} order={{ xs: 5, md: 4 }}>
@@ -44,12 +46,12 @@ function Configurator() {
         </Grid>
         <Grid item xs={12} md={8} order={{ xs: 4, md: 5 }}>
           <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }}>
-            {t('delivery.order')}
+            {t('delivery.refresh')}
           </Button>
         </Grid>
         <Grid item xs={12} md={4} order={{ xs: 6, md: 6 }}>
           <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }}>
-            {t('delivery.refresh')}
+            {t('delivery.order')}
           </Button>
         </Grid>
       </Grid>

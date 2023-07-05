@@ -20,6 +20,7 @@
   },
   "delivery": {
     "title": "Lieferung",
+    "newspaper": "Zeitung",
     "address": "Lieferadresse",
     "edition": "Ausgabe",
     "deliveryDays": "Liefertage",
@@ -62,6 +63,28 @@
       "location": "Ort",
       "country": "Land",
       "save": "Speichern"
+    },
+    "checkout": {
+      "invoice": {
+        "title": "Rechnungsaddresse",
+        "sameAsDelivery": "Gleich wie Lieferadresse"
+      },
+      "payment": {
+        "title": "Zahlung",
+        "type": "Zahlungsmethode",
+        "provider": {
+          "creditCard": "Kreditkarte",
+          "paypal": "PayPal",
+          "amazonpay": "Amazon Pay",
+          "klarna": "Klarna"
+        }
+      },
+      "overview": {
+        "title": "Übersicht"
+      },
+      "buttonNext": "Weiter",
+      "buttonBack": "Zurück",
+      "buttonFinish": "Bestellen"
     }
   }
 }

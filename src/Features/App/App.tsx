@@ -8,6 +8,7 @@ import Register from '../Register/Register'
 import Configurator from './../Configurator/Configurator'
 import Header from './../Header/Header'
 import './App.css'
+import Checkout from '../Checkout/Checkout'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/configurator/:newspaper' element={<Configurator />} />
           {/* <Route path='/me' element={<Me />} /> */}
+          <Route path='/checkout' element={<Checkout />} />
           <Route
             path='/me'
             element={
