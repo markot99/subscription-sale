@@ -13,18 +13,16 @@ import * as React from 'react'
 import { Translation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { User } from '../../models/User'
-import { isLoggedIn, logoutUser } from '../../store/slices/user/userslice'
-import { RootState } from '../../store/store'
+import { authenticatedUser, deauthenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 
 function Header() {
-  const user = useSelector<RootState, User>((state) => state.user.user)
+  const user = useSelector(authenticatedUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleLogout = () => {
     setAnchorEl(null)
-    dispatch(logoutUser())
+    dispatch(deauthenticate())
     navigate('/')
   }
 
@@ -41,15 +39,14 @@ function Header() {
   }
 
   const checkIfUserIsLoggedIn = () => {
-    const isloggedin = useSelector(isLoggedIn)
-    console.log(isloggedin)
-    return isloggedin
+    const authenticated = useSelector(isAuthenticated)
+    return authenticated
   }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   return (
-    <AppBar sx={{ mb: 2 }} position='static'>
+    <AppBar position='static'>
       <Container style={{ maxWidth: '100%' }}>
         <Toolbar disableGutters>
           <NewspaperIcon sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }} />
@@ -76,14 +73,13 @@ function Header() {
           <Box>
             {checkIfUserIsLoggedIn() ? (
               <>
-                <p>Hallo</p>
                 <IconButton sx={{ p: 0 }} onClick={handleMenu}>
                   <Avatar alt='Remy Sharp'>{user.firstName.charAt(0) + user.lastName.charAt(0)}</Avatar>
                 </IconButton>
               </>
             ) : (
-              <Button variant='contained' color='secondary'>
-                Login
+              <Button variant='contained' color='secondary' href='/login'>
+                Log In
               </Button>
             )}
           </Box>

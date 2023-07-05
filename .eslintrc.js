@@ -30,6 +30,12 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }]
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      },
+      { usePrettierrc: true }
+    ]
   }
 }

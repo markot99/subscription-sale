@@ -28,5 +28,40 @@
     "priceUnit": "EUR / Monat",
     "order": "Bestellen",
     "refresh": "Aktualisieren"
+  },
+  "features": {
+    "login": {
+      "header": "Anmelden",
+      "username": "Benutzername",
+      "password": "Passwort",
+      "rememberMe": "Angemeldet bleiben?",
+      "submit": "Anmelden",
+      "forgotPassword": "Passwort vergessen?",
+      "registerNow": "Neu hier? Jetzt registrieren!"
+    },
+    "register": {
+      "header": "Registrieren",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "emailUpdates": "Ich will E-Mail Updates erhalten und auf dem laufenden bleiben?",
+      "submit": "Registrieren",
+      "logIn": "Bereits registriert? Jetzt anmelden!"
+    },
+    "me": {
+      "header": "Persönliche Daten",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "street": "Straße",
+      "streetNumber": "Nr.",
+      "zipCode": "Postleitzahl",
+      "location": "Ort",
+      "country": "Land",
+      "save": "Speichern"
+    }
   }
 }

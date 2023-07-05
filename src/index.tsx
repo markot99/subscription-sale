@@ -1,20 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import './index.css'
-import store from './store/store'
-
+import AppShell from './Features/AppShell/AppShell'
 import './i18n'
+import './index.css'
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+/**
+ * The document's root element.
+ */
+const element = document.getElementById('root') as HTMLElement
+
+/**
+ * The react root.
+ */
+const root = ReactDOM.createRoot(element)
+
+/**
+ * Renders the application.
+ */
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <AppShell />
   </React.StrictMode>
 )

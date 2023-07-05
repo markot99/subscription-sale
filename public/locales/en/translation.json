@@ -28,5 +28,40 @@
     "priceUnit": "EUR / Month",
     "order": "Order",
     "refresh": "Refresh"
+  },
+  "features": {
+    "login": {
+      "header": "Log In",
+      "username": "Username",
+      "password": "Password",
+      "rememberMe": "Remember Me?",
+      "submit": "Log In",
+      "forgotPassword": "Forgot Password?",
+      "registerNow": "New here? Register now!"
+    },
+    "register": {
+      "header": "Register",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "emailUpdates": "I want to receive email updates?",
+      "submit": "Register",
+      "logIn": "Already have an account? Log In!"
+    },
+    "me": {
+      "header": "My Account",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "street": "Street",
+      "streetNumber": "Nr.",
+      "zipCode": "Zip Code",
+      "location": "Location",
+      "country": "Country",
+      "save": "Save"
+    }
   }
 }
