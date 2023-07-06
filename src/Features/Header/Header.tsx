@@ -1,5 +1,4 @@
 import NewspaperIcon from '@mui/icons-material/Newspaper'
-import { Button } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -20,6 +19,11 @@ function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const handleProfile = () => {
+    setAnchorEl(null)
+    navigate('/me')
+  }
+
   const handleLogout = () => {
     setAnchorEl(null)
     dispatch(deauthenticate())
@@ -35,7 +39,7 @@ function Header() {
   }
 
   const navigateHome = () => {
-    navigate('/home')
+    navigate('/')
   }
 
   const checkIfUserIsLoggedIn = () => {
@@ -78,9 +82,12 @@ function Header() {
                 </IconButton>
               </>
             ) : (
-              <Button variant='contained' color='secondary' href='/login'>
-                Log In
-              </Button>
+              // <Button variant='contained' color='secondary' href='/login'>
+              //   Log In
+              // </Button>
+              <IconButton sx={{ p: 0 }} onClick={() => navigate('/login')}>
+                <Avatar alt='Remy Sharp'></Avatar>
+              </IconButton>
             )}
           </Box>
           <Menu
@@ -98,6 +105,7 @@ function Header() {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
+            <MenuItem onClick={handleProfile}>Profile</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>

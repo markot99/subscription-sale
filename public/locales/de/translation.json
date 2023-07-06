@@ -31,6 +31,12 @@
     "refresh": "Aktualisieren"
   },
   "features": {
+    "home": {
+      "header": "Unsere Angebote",
+      "card": {
+        "buy": "Kaufen"
+      }
+    },
     "login": {
       "header": "Anmelden",
       "username": "Benutzername",

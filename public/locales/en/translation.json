@@ -31,6 +31,12 @@
     "refresh": "Refresh"
   },
   "features": {
+    "home": {
+      "header": "Available Subscriptions",
+      "card": {
+        "buy": "Buy"
+      }
+    },
     "login": {
       "header": "Log In",
       "username": "Username",

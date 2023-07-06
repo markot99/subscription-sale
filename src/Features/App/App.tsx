@@ -1,6 +1,11 @@
+import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import ContentArea from '../../Components/ContentArea/ContentArea'
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRoute'
+import { fetchSubscriptions } from '../../Store/Slices/Subscription/SubscriptionSlice'
+import { AppDispatch } from '../../Store/Store'
+import Checkout from '../Checkout/Checkout'
+import Footer from '../Footer/Footer'
 import Home from '../Home/Home'
 import Login from '../Login/Login'
 import Me from '../Me/Me'
@@ -8,9 +13,11 @@ import Register from '../Register/Register'
 import Configurator from './../Configurator/Configurator'
 import Header from './../Header/Header'
 import './App.css'
-import Checkout from '../Checkout/Checkout'
 
 function App() {
+  const dispatch = useDispatch() as AppDispatch
+  dispatch(fetchSubscriptions())
+
   return (
     <>
       <Header />
@@ -32,6 +39,7 @@ function App() {
           />
         </Routes>
       </ContentArea>
+      <Footer />
     </>
   )
 }

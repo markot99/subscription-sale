@@ -10,7 +10,7 @@
 export function _chechDatabaseDistance(plzDestination) {
   //Check distance
   if (pressCompanyInfos.plz === plzDestination) {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
       setTimeout(() => res({ distance: 0, plzDestination: plzDestination }), 100)
     })
   } else {
@@ -25,12 +25,12 @@ export function _chechDatabaseDistance(plzDestination) {
         destinationCoord.latitude,
         destinationCoord.longitude
       )
-      return new Promise((res, rej) => {
+      return new Promise((res) => {
         setTimeout(() => res({ distance: distanceResult, plzDestination: plzDestination }), 1000)
       })
     } else {
       console.log('No plz found with:' + plzDestination)
-      return new Promise((res, rej) => {
+      return new Promise((res) => {
         res({ distance: 0, plzDestination: plzDestination })
       })
     }
@@ -39,7 +39,7 @@ export function _chechDatabaseDistance(plzDestination) {
 
 // 2. Kundendaten
 export function _saveCustomer(customerObj) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     customerObj.id = Object.values(customers).length + 1
     let isEmailUsed = Object.values(customers).find((customer) => customer.email === customerObj.email)
     if (isEmailUsed) {
@@ -57,27 +57,27 @@ export function _saveCustomer(customerObj) {
 }
 
 export function _updateCustomer(customer) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     customers[customer.id] = customer
     res(true)
   })
 }
 
 export function _readCustomer(customerEmail) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => res(Object.values(customers).find((customer) => customer.email === customerEmail)), 1500)
   })
 }
 
 export function _deleteCustomer(customerId) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     delete customers[customerId]
     res(true)
   })
 }
 
 export function _getAllCustomer() {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => res({ ...customers }), 2000)
   })
 }
@@ -85,7 +85,7 @@ export function _getAllCustomer() {
 // 3. Abo/Abonnement
 
 export function _saveAbo(newAbo) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     newAbo.id = Object.values(abos).length + 1
     setTimeout(() => {
       abos = {
@@ -98,27 +98,27 @@ export function _saveAbo(newAbo) {
 }
 
 export function _updateAbo(abo) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     abos[abo.id] = abo
     res(true)
   })
 }
 
 export function _readAbo(aboId) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => res(Object.values(abos).find((abo) => abo.id === aboId)), 1500)
   })
 }
 
 export function _deleteAbo(aboId) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     delete abos[aboId]
     res(true)
   })
 }
 
 export function _getAllAbosForCustomer(customerId) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => {
       let abosFromCustomer = Object.values(abos).filter((abo) => abo.cid === customerId)
       res(abosFromCustomer)
@@ -127,14 +127,14 @@ export function _getAllAbosForCustomer(customerId) {
 }
 
 export function _readAllAbos() {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => res({ ...abos }), 1000)
   })
 }
 
 // 4. Lokalausgaben
 export function _getLocalVersionsForPlz(plz) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     setTimeout(() => {
       if (!plz) {
         res({})

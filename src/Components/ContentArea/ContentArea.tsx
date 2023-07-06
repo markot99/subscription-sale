@@ -7,7 +7,7 @@ const ContentArea = (props: { children: ReactNode }) => {
       sx={{
         width: 1,
         height: 1,
-        padding: { xs: 1, sm: 10 }
+        padding: { xs: 1, sm: 5 }
       }}
     >
       {props.children}
