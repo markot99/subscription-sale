@@ -30,12 +30,12 @@ export interface Subscription {
   /**
    * The id of the subscription.
    */
-  id: number
+  id: string
 
   /**
    * The id of the customer.
    */
-  cid: number
+  userId: string
 
   /**
    * The date when the subscription was created.
@@ -96,34 +96,4 @@ export interface Subscription {
    * The number of local paper version.
    */
   localPaperVersions: number
-}
-
-/**
- * Represents a subscription offer.
- */
-export interface SubscriptionOffer {
-  /**
-   * The id of the subscription offer.
-   */
-  id: string
-
-  /**
-   * The title of the subscription offer.
-   */
-  title: string
-
-  /**
-   * A short description of the subscription offer.
-   */
-  description: string
-
-  /**
-   * The price of the subscription.
-   */
-  price: number
-
-  /**
-   * The image of the subscription offer.
-   */
-  img: string
 }

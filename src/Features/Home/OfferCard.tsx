@@ -1,11 +1,11 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Rating, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { SubscriptionOffer } from '../../Models/Subscription'
+import { LocalPaperVersion } from '../../Models/LocalPaperVersion'
 
-const OfferCard = (props: { offer: SubscriptionOffer }) => {
+const OfferCard = (props: { paper: LocalPaperVersion }) => {
   const { t } = useTranslation()
 
-  const { offer } = props
+  const { paper } = props
 
   return (
     <Card
@@ -16,15 +16,15 @@ const OfferCard = (props: { offer: SubscriptionOffer }) => {
         }
       }}
     >
-      <CardMedia component='img' image={offer.img} height={200} />
+      <CardMedia component='img' image={paper.imageUrl} height={200} />
       <CardContent>
         <Typography component='div' variant='h5'>
-          {offer.title}
+          {paper.title}
         </Typography>
         <Typography variant='subtitle1' color='text.secondary' component='div'>
-          {offer.price.toFixed(2)} € / Monat
+          {paper.basePrice.toFixed(2)} € / Monat
         </Typography>
-        <Typography variant='body1'>{offer.description}</Typography>
+        <Typography variant='body1'>{paper.description}</Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Rating name='read-only' value={4} readOnly />

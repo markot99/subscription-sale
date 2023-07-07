@@ -7,24 +7,29 @@ const Footer = () => {
       component='footer'
       sx={{
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
         padding: 3,
-        gap: 2,
         backgroundColor: grey[100]
       }}
     >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 2
+        }}
+      >
+        <Link>Terms</Link>
+        <Link>Privacy</Link>
+        <Link>About</Link>
+      </Box>
       <Typography component='div'>
         Copyright © 2023 <Box sx={{ display: 'inline', fontStyle: 'italic' }}>Newspaper, Inc.</Box>
       </Typography>
-      <Link>Terms</Link>
-      <Link>Privacy</Link>
-      <Link>About</Link>
     </Box>
   )
 }

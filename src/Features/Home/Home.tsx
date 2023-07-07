@@ -1,48 +1,20 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Skeleton, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SubscriptionOffer } from '../../Models/Subscription'
+import { useDispatch, useSelector } from 'react-redux'
+import { availablePaperVersions, fetchLocalPaperVersions } from '../../Store/Slices/LocalPaperVersion/LocalPaperVersionSlice'
+import { AppDispatch } from '../../Store/Store'
 import OfferCard from './OfferCard'
 
 const Home = () => {
-  const offers: SubscriptionOffer[] = [
-    {
-      id: '1',
-      title: 'Standardausgabe: Wochenende',
-      description: 'Erhalten sie die unsere Zeitung jeden Samstag, mit allen wichtigen Informationen der Woche.',
-      price: 9.99,
-      img: '/images/home/paper.jpg'
-    },
-    {
-      id: '2',
-      title: 'Standardausgabe: Täglich',
-      description: 'Erhalten sie die unsere Zeitung jeden Tag, mit allen wichtigen Informationen des Tages.',
-      price: 20.99,
-      img: '/images/home/paper.jpg'
-    },
-    {
-      id: '3',
-      title: 'Spezialausgabe: Politik',
-      description: 'Erhalten sie unsere Spezialausgabe mit allen Themen rund um die Politik.',
-      price: 14.99,
-      img: '/images/home/politics.jpg'
-    },
-    {
-      id: '4',
-      title: 'Spezialausgabe: Wirtschaft',
-      description: 'Erhalten sie unsere Spezialausgabe mit allen Themen aus der Wirtschaft.',
-      price: 14.99,
-      img: '/images/home/economy.jpg'
-    },
-    {
-      id: '5',
-      title: 'Spezialausgabe: Sport',
-      description: 'Erhalten sie unsere Spezialausgabe mit allen Themen rund um den Sport.',
-      price: 14.99,
-      img: '/images/home/sports.jpg'
-    }
-  ]
-
   const { t } = useTranslation()
+  const dispatch = useDispatch() as AppDispatch
+
+  const localPaperVersions = useSelector(availablePaperVersions)
+
+  useEffect(() => {
+    dispatch(fetchLocalPaperVersions())
+  }, [dispatch])
 
   return (
     <Box
@@ -69,12 +41,22 @@ const Home = () => {
       >
         {t('features.home.header')}
       </Typography>
-      <Grid container spacing={2}>
-        {offers.map((offer) => (
-          <Grid item key={offer.id} xs={12} sm={12} md={6} lg={4} xl={3}>
-            <OfferCard offer={offer} />
-          </Grid>
-        ))}
+      <Grid container spacing={2} alignItems='center'>
+        {localPaperVersions.length > 0
+          ? localPaperVersions.map((paper) => (
+              <Grid item key={paper.id} xs={12} sm={12} md={6} lg={4} xl={3}>
+                <OfferCard paper={paper} />
+              </Grid>
+            ))
+          : undefined}
+
+        {localPaperVersions.length === 0
+          ? [0, 1, 2, 3, 4, 5].map((index) => (
+              <Grid item key={index} xs={12} sm={12} md={6} lg={4} xl={3}>
+                <Skeleton variant='rectangular' animation='wave' width={400} height={300} sx={{ width: 1, height: 1, margin: 'auto' }} />
+              </Grid>
+            ))
+          : undefined}
       </Grid>
     </Box>
   )
