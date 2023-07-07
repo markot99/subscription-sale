@@ -23,7 +23,12 @@
     "newspaper": "Zeitung",
     "address": "Lieferadresse",
     "edition": "Ausgabe",
-    "deliveryDays": "Liefertage",
+    "deliveryDays": {
+      "title": "Liefertage",
+      "daily": "Täglich",
+      "mondayToFriday": "Montag bis Freitag",
+      "sunday": "Sonntag"
+    },
     "deliveryFrom": "Lieferung ab",
     "price": "Ihr Preis:",
     "priceUnit": "EUR / Monat",

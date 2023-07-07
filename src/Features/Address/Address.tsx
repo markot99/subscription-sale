@@ -2,7 +2,7 @@ import { Box, Grid, MenuItem, Select, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Address(props: { disabled?: boolean }) {
+function Address(props: { disabled: boolean }) {
   const { t } = useTranslation()
 
   const { disabled } = props

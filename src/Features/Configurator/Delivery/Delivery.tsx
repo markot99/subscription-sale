@@ -1,9 +1,11 @@
-import { Box, Grid, MenuItem, Select, Typography } from '@mui/material'
+import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LocalPaperVersion } from '../../../Models/LocalPaperVersion'
 
-function Delivery() {
+function Delivery(props: { selectedNewspaper: LocalPaperVersion }) {
   const { t } = useTranslation()
+  const { selectedNewspaper } = props
 
   const [edition, setEdition] = useState('')
   const [deliveryDates, setDeliveryDates] = useState('')
@@ -27,28 +29,48 @@ function Delivery() {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={12}>
-            <Select fullWidth value={edition} onChange={(e) => setEdition(e.target.value as string)}>
-              <MenuItem value='north'>Nord</MenuItem>
-              <MenuItem value='ost'>Ost</MenuItem>
-              <MenuItem value='west'>West</MenuItem>
-              <MenuItem value='...'>...</MenuItem>
-            </Select>
+            <TextField
+              select
+              fullWidth
+              label={t('delivery.edition')}
+              value={edition}
+              onChange={(e) => setEdition(e.target.value as string)}
+            >
+              {selectedNewspaper.editions.map((edition, index) => (
+                <MenuItem key={index} value={edition}>
+                  {edition}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs={12}>
-            <Select fullWidth value={deliveryDates} onChange={(e) => setDeliveryDates(e.target.value as string)}>
-              <MenuItem value='monday-saturday'>Monday - Saturday</MenuItem>
-              <MenuItem value='monday-sunday'>Monday - Sunday</MenuItem>
-              <MenuItem value='sunday'>Sunday</MenuItem>
-              <MenuItem value='...'>...</MenuItem>
-            </Select>
+            <TextField
+              select
+              fullWidth
+              label={t('delivery.deliveryDays.title')}
+              value={deliveryDates}
+              onChange={(e) => setDeliveryDates(e.target.value as string)}
+            >
+              {selectedNewspaper.deliveryDays.map((deliveryDay, index) => (
+                <MenuItem key={index} value={deliveryDay}>
+                  {t('delivery.deliveryDays.' + deliveryDay)}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs={12}>
-            <Select fullWidth value={deliveryFrom} onChange={(e) => setDeliveryFrom(e.target.value as string)}>
+            <TextField
+              select
+              fullWidth
+              label={t('delivery.deliveryFrom')}
+              value={deliveryFrom}
+              onChange={(e) => setDeliveryFrom(e.target.value as string)}
+            >
               <MenuItem value='23.06.2023'>23.06.2023</MenuItem>
               <MenuItem value='23.07.2023'>23.07.2023</MenuItem>
               <MenuItem value='23.08.2023'>23.08.2023</MenuItem>
               <MenuItem value='...'>...</MenuItem>
-            </Select>
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <br />

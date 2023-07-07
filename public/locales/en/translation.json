@@ -23,7 +23,12 @@
     "newspaper": "Newspaper",
     "address": "Delivery address",
     "edition": "Edition",
-    "deliveryDays": "Delivery days",
+    "deliveryDays": {
+      "title": "Delivery days",
+      "daily": "Daily",
+      "mondayToFriday": "Monday to Friday",
+      "sunday": "Sunday"
+    },
     "deliveryFrom": "Delivery from",
     "price": "Your Price:",
     "priceUnit": "EUR / Month",
