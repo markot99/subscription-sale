@@ -1,53 +1,73 @@
-import { Box, Grid, MenuItem, Select, TextField } from '@mui/material'
-import { useState } from 'react'
+import { Box, Grid, MenuItem, TextField } from '@mui/material'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CountryApi } from '../../Api/CountryApi'
+import { DeliveryAddress, Title } from '../../Models/DeliveryAddress'
 
-function Address(props: { disabled: boolean }) {
+function Address(props: {
+  address: DeliveryAddress
+  setAddress: React.Dispatch<React.SetStateAction<DeliveryAddress>>
+  disabled: boolean
+}) {
   const { t } = useTranslation()
 
-  const { disabled } = props
-
-  const [title, setTitle] = useState('mr')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [street, setStreet] = useState('')
-  const [streetNumber, setStreetNumber] = useState('')
-  const [postcode, setPostcode] = useState('')
-  const [city, setCity] = useState('')
-  const [country, setCountry] = useState('')
+  const { address, setAddress, disabled } = props
+  const [countries, setCountries] = React.useState<string[]>([])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log({
-      title,
-      firstName,
-      lastName,
-      street,
-      streetNumber,
-      postcode,
-      city,
-      country
-    })
   }
+
+  const fetchAvailableCountries = async () => {
+    try {
+      const availableCountries = await CountryApi.fetchAvailableCountries()
+      setCountries(availableCountries)
+    } catch (error) {
+      console.log('Failed to get available countries')
+    }
+  }
+
+  useEffect(() => {
+    fetchAvailableCountries()
+  }, [])
 
   return (
     <Box>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={4}>
-            <Select disabled={disabled} fullWidth value={title} onChange={(e) => setTitle(e.target.value as string)}>
-              <MenuItem value='mr'>{t('title.mr')}</MenuItem>
-              <MenuItem value='mrs'>{t('title.mrs')}</MenuItem>
-              <MenuItem value='other'>{t('title.other')}</MenuItem>
-            </Select>
+            <TextField
+              disabled={disabled}
+              select
+              fullWidth
+              label={t('address.title')}
+              value={address.title}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  title: e.target.value
+                }))
+              }
+            >
+              {Object.values(Title).map((value) => (
+                <MenuItem key={value} value={value}>
+                  {t('title.' + value)}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <TextField
               disabled={disabled}
               fullWidth
               label={t('address.firstName')}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={address.firstName}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  firstName: e.target.value
+                }))
+              }
             />
           </Grid>
           <Grid item xs={12}>
@@ -55,8 +75,13 @@ function Address(props: { disabled: boolean }) {
               disabled={disabled}
               fullWidth
               label={t('address.lastName')}
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={address.lastName}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  lastName: e.target.value
+                }))
+              }
             />
           </Grid>
           <Grid item xs={9}>
@@ -64,8 +89,13 @@ function Address(props: { disabled: boolean }) {
               disabled={disabled}
               fullWidth
               label={t('address.street')}
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
+              value={address.street}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  street: e.target.value
+                }))
+              }
             />
           </Grid>
           <Grid item xs={3}>
@@ -73,8 +103,13 @@ function Address(props: { disabled: boolean }) {
               disabled={disabled}
               fullWidth
               label={t('address.streetNumber')}
-              value={streetNumber}
-              onChange={(e) => setStreetNumber(e.target.value)}
+              value={address.streetNumber}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  streetNumber: e.target.value
+                }))
+              }
             />
           </Grid>
           <Grid item xs={3}>
@@ -82,21 +117,48 @@ function Address(props: { disabled: boolean }) {
               disabled={disabled}
               fullWidth
               label={t('address.postcode')}
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
+              value={address.postalCode}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  postalCode: e.target.value
+                }))
+              }
             />
           </Grid>
           <Grid item xs={9}>
-            <TextField disabled={disabled} fullWidth label={t('address.city')} value={city} onChange={(e) => setCity(e.target.value)} />
-          </Grid>
-          <Grid item xs={12}>
             <TextField
               disabled={disabled}
               fullWidth
-              label={t('address.country')}
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
+              label={t('address.city')}
+              value={address.city}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  city: e.target.value
+                }))
+              }
             />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              select
+              fullWidth
+              label={t('address.country')}
+              value={address.country}
+              onChange={(e) =>
+                setAddress((prevState) => ({
+                  ...prevState,
+                  country: e.target.value
+                }))
+              }
+            >
+              {countries.map((country) => (
+                <MenuItem key={country} value={country}>
+                  {country}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
         </Grid>
       </form>

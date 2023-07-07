@@ -1,22 +1,22 @@
 /**
  * Describes all available local paper versions.
  */
-export enum DeliveryDays {
-  /**
-   * Daily delivery.
-   */
-  Daily = 'daily', // eslint-disable-line no-unused-vars
+// export enum LocalPaperEdition {
+//   /**
+//    * The city edition.
+//    */
+//   CityEdition = 1,
 
-  /**
-   * Monday to Friday delivery.
-   */
-  MondayToFriday = 'mondayToFriday', // eslint-disable-line no-unused-vars
+//   /**
+//    * The sport edition.
+//    */
+//   SportEdition = 2,
 
-  /**
-   * Sunday delivery.
-   */
-  Sunday = 'sunday' // eslint-disable-line no-unused-vars
-}
+//   /**
+//    * The county edition.
+//    */
+//   CountyEdition = 3
+// }
 
 /**
  * Represents a local paper version datagram.
@@ -38,14 +38,9 @@ export interface LocalPaperVersion {
   description: string
 
   /**
-   * The edition of the local paper version.
+   * The value of the local paper version.
    */
-  editions: string[]
-
-  /**
-   * The edition of the local paper version.
-   */
-  deliveryDays: DeliveryDays[]
+  // edition: LocalPaperEdition
 
   /**
    * The base price of the local paper version.

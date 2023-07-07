@@ -1,3 +1,9 @@
+export enum Title {
+  Other = 'other',
+  Mr = 'mr',
+  Ms = 'ms'
+}
+
 export interface DeliveryAddress {
   title: string
   firstName: string

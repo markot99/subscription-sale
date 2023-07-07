@@ -12,7 +12,7 @@
   },
   "title": {
     "mr": "Herr",
-    "mrs": "Frau",
+    "ms": "Frau",
     "other": "Andere"
   },
   "subscriptionPreview": {
@@ -26,8 +26,17 @@
     "deliveryDays": {
       "title": "Liefertage",
       "daily": "Täglich",
-      "mondayToFriday": "Montag bis Freitag",
-      "sunday": "Sonntag"
+      "weekends": "Wochenende"
+    },
+    "deliveryMethod": {
+      "title": "Lieferart",
+      "post": "Post",
+      "deliveryMan": "Austräger"
+    },
+    "paymentInterval": {
+      "title": "Zahlungsintervall",
+      "annual": "Jährlich",
+      "monthly": "Monatlich"
     },
     "deliveryFrom": "Lieferung ab",
     "price": "Ihr Preis:",

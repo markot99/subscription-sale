@@ -1,27 +1,68 @@
 /**
  * Describes all possible subscription types.
  */
-export type SubscriptionType = 'Printed' | 'E-Paper' | 'Website'
+export const SubscriptionTypes = ['Printed', 'E-Paper', 'Website'] as const
+export type SubscriptionType = (typeof SubscriptionTypes)[number]
 
 /**
  * Describes all possible delivery methods.
  */
-export type DeliveryMethod = 'Post' | 'Delivery Man'
+export enum DeliveryMethod {
+  /**
+   * deliver via post.
+   */
+  Post = 'post',
+
+  /**
+   * deliver via an delivery man.
+   */
+  DeliveryMan = 'deliveryMan'
+}
 
 /**
  * Describes all possible payment types.
  */
-export type PaymentType = 'Credit Card' | 'Direct Debit'
+export enum PaymentType {
+  /**
+   * credit card.
+   */
+  CreditCard = 'creditCard',
+
+  /**
+   * debit card.
+   */
+  DirectDebit = 'directDebit'
+}
 
 /**
  * Describes all possible payment intervals.
  */
-export type PaymentInterval = 'Annual' | 'Monthly'
+export enum PaymentInterval {
+  /**
+   * annual payment.
+   */
+  Annual = 'annual',
+
+  /**
+   * monthly payment.
+   */
+  Monthly = 'monthly'
+}
 
 /**
  * Describes all possible subscription intervals.
  */
-export type SubscriptionInterval = 'Daily' | 'Weekends'
+export enum SubscriptionInterval {
+  /**
+   * daily subscription.
+   */
+  Daily = 'daily',
+
+  /**
+   * weekly subscription.
+   */
+  Weekends = 'weekends'
+}
 
 /**
  * Represents a subscription.
@@ -83,14 +124,9 @@ export interface Subscription {
   subscriptionInterval: SubscriptionInterval
 
   /**
-   * The price of the subscription per paper.
-   */
-  calculatedPricePerPaper: number
-
-  /**
    * The price of the subscription per year.
    */
-  calculatedPricePerYear: number
+  price: number
 
   /**
    * The number of local paper version.

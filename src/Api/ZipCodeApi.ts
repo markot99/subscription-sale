@@ -1,21 +1,7 @@
 import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
-import { RawData, ZipCodeDatagram } from './ZipCodeData'
-
-/**
- * Represents a coordinate.
- */
-interface Coordinate {
-  /**
-   * The latitude.
-   */
-  latitude: number
-
-  /**
-   * The longitude.
-   */
-  longitude: number
-}
+import { Coordinate } from './Coordinate'
+import { ZipCodeDatagram, ZipCodeRawData } from './ZipCodeData'
 
 /**
  * Represents the zip code API for testing purposes.
@@ -32,7 +18,7 @@ export class ZipCodeApi {
     return ApiUtils.delay(() => {
       log.begin()
       log.end()
-      return RawData
+      return ZipCodeRawData
     })
   }
 
@@ -50,8 +36,8 @@ export class ZipCodeApi {
     return ApiUtils.delay(() => {
       log.begin()
 
-      const datagram1 = RawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode1)
-      const datagram2 = RawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode2)
+      const datagram1 = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode1)
+      const datagram2 = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode2)
 
       if (!datagram1) {
         log.error()
@@ -79,6 +65,31 @@ export class ZipCodeApi {
   }
 
   /**
+   * Fetch Latitude and Longitude from Zip Code
+   *
+   * @param zipCode1 The first zip code.
+   * @param zipCode2 The second zip code.
+   *
+   * @returns The distance between the two zip codes in kilometers.
+   */
+  public static async fetchCoordinateForZipCode(zipCode: string): Promise<Coordinate> {
+    const log = ApiLog.context('calculateZipCodeDistance')
+
+    const datagram = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode)
+
+    if (!datagram) {
+      log.error()
+      throw new Error(`Zip code does not exist: ${zipCode}`)
+    }
+
+    const coord = {
+      latitude: datagram.latitude,
+      longitude: datagram.longitude
+    }
+    return coord
+  }
+
+  /**
    * Calculates the distance in kilometers between two coordinates.
    *
    * @param coord1 The first coordinate.
@@ -86,7 +97,7 @@ export class ZipCodeApi {
    *
    * @returns The distance in kilometers between the two coordinates.
    */
-  private static calculateDistance(coord1: Coordinate, coord2: Coordinate): number {
+  public static calculateDistance(coord1: Coordinate, coord2: Coordinate): number {
     const earthRadius = 6371
 
     const latitudeDelta = ZipCodeApi.degreesFromRadians(coord2.latitude - coord1.latitude)

@@ -1,7 +1,10 @@
 import { LocalPaperVersion } from '../Models/LocalPaperVersion'
 import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
-import { RawData } from './NewsData'
+import { Coordinate } from './Coordinate'
+import { CountryApi } from './CountryApi'
+import { LocalEdition, LocalEditionsRawData, LocalPaperRawData } from './NewsData'
+import { ZipCodeApi } from './ZipCodeApi'
 
 /**
  * Represents information about the newspaper agency.
@@ -21,6 +24,11 @@ export interface NewspaperAgencyInfo {
    * The zip code of the newspaper agency.
    */
   zipCode: string
+
+  /**
+   * The country of the newspaper agency.
+   */
+  country: string
 }
 
 /**
@@ -33,16 +41,46 @@ export class NewsApi {
    * @returns Information about the newspaper agency.
    */
   public static async fetchAgencyInfo(): Promise<NewspaperAgencyInfo> {
-    const log = ApiLog.context('fetchAgencyInfo')
+    return {
+      name: 'Newspaper Agency',
+      city: 'Reutlingen',
+      zipCode: '72762',
+      country: 'Germany'
+    }
+  }
+
+  /**
+   * Calculates the price of the newspaper
+   *
+   * @param deliveryZipCode The zip code to which the newspaper is delivered
+   * @param deliveryCountry The country to which the newspaper is delivered
+   * @param newspaperID The id of the newspaper to be delivered
+   *
+   * @returns The distance between the two zip codes in kilometers.
+   */
+  public static async calculateNewspaperPrice(deliveryZipCode: string, deliveryCountry: string, newspaperID: number): Promise<string> {
+    const log = ApiLog.context('calculateNewspaperPrice')
+    const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
+
+    const coordOfNewspaperAgency = await ZipCodeApi.fetchCoordinateForZipCode(newspaperAgencyInfo.zipCode)
+
+    let coord: Coordinate
+    // if country is not the country of the newspaper agency, then the price is calculated based on the average coordinate of the country
+    if (deliveryCountry !== newspaperAgencyInfo.country) {
+      coord = await CountryApi.fetchCoordinatesOfCountry(deliveryCountry)
+    } else {
+      coord = await ZipCodeApi.fetchCoordinateForZipCode(deliveryZipCode)
+    }
+
+    const distance = await ZipCodeApi.calculateDistance(coordOfNewspaperAgency, coord)
+
+    console.log(newspaperID)
+    const price = (5 + distance * 0.1).toFixed()
 
     return ApiUtils.delay(() => {
       log.begin()
       log.end()
-      return {
-        name: 'Newspaper Agency',
-        city: 'Reutlingen',
-        zipCode: '72762'
-      }
+      return price
     })
   }
 
@@ -57,7 +95,7 @@ export class NewsApi {
     return ApiUtils.delay(() => {
       log.begin()
       log.end()
-      return RawData
+      return LocalPaperRawData
     })
   }
 
@@ -68,14 +106,14 @@ export class NewsApi {
    *
    * @returns All available paper versions for the given zip code.
    */
-  public static async fetchLocalPaperVersionsForZipCode(zipCode: string): Promise<LocalPaperVersion[]> {
+  public static async fetchLocalPaperVersionsForZipCode(zipCode: string): Promise<LocalEdition[]> {
     const log = ApiLog.context('fetchLocalPaperVersionsForZipCode')
 
     return ApiUtils.delay(async () => {
       log.begin()
 
       const startNumber = zipCode.charAt(0)
-      const localVersions = await NewsApi.fetchLocalPaperVersions()
+      const localVersions = LocalEditionsRawData
 
       switch (startNumber) {
         case '0':

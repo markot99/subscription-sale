@@ -12,7 +12,7 @@
   },
   "title": {
     "mr": "Mr.",
-    "mrs": "Mrs.",
+    "ms": "Ms.",
     "other": "Other"
   },
   "subscriptionPreview": {
@@ -26,8 +26,17 @@
     "deliveryDays": {
       "title": "Delivery days",
       "daily": "Daily",
-      "mondayToFriday": "Monday to Friday",
-      "sunday": "Sunday"
+      "weekends": "Weekends"
+    },
+    "deliveryMethod": {
+      "title": "Delivery Method",
+      "post": "Post",
+      "deliveryMan": "Delivery Man"
+    },
+    "paymentInterval": {
+      "title": "Payment Interval",
+      "annual": "Annual",
+      "monthly": "Monthly"
     },
     "deliveryFrom": "Delivery from",
     "price": "Your Price:",

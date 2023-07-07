@@ -2,47 +2,46 @@
  * Represents a zip code datagram.
  */
 export interface ZipCodeDatagram {
-
   /**
    * The id of the zip code.
    */
-    id: number
+  id: number
 
-    /**
-     * The zip code.
-     */
-    zipCode: string
+  /**
+   * The zip code.
+   */
+  zipCode: string
 
-    /**
-     * The city.
-     */
-    city: string
+  /**
+   * The city.
+   */
+  city: string
 
-    /**
-     * The state.
-     */
-    state: string
+  /**
+   * The state.
+   */
+  state: string
 
-    /**
-     * The community.
-     */
-    community: string
+  /**
+   * The community.
+   */
+  community: string
 
-    /**
-     * The latitude.
-     */
-    latitude: number
+  /**
+   * The latitude.
+   */
+  latitude: number
 
-    /**
-     * The longitude.
-     */
-    longitude: number
+  /**
+   * The longitude.
+   */
+  longitude: number
 }
 
 /**
  * The raw zip code data.
  */
-export const RawData: ZipCodeDatagram[] = [
+export const ZipCodeRawData: ZipCodeDatagram[] = [
   {
     id: 1,
     zipCode: '01945',
