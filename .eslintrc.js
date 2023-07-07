@@ -29,7 +29,8 @@ module.exports = {
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
     'prettier/prettier': [
       'error',
       {

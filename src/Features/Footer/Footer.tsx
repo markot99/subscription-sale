@@ -1,5 +1,4 @@
 import { Box, Link, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
 
 const Footer = () => {
   return (
@@ -10,8 +9,7 @@ const Footer = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 3,
-        backgroundColor: grey[100]
+        padding: 3
       }}
     >
       <Box

@@ -1,17 +1,28 @@
-import { Box, Button, Checkbox, FormControlLabel, Link, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Link,
+  MenuItem,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { User } from '../../Models/User'
+import { Api } from '../../Api/Api'
+import { User, UserTitle } from '../../Models/User'
 import { isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
-import { storeUser } from '../../Store/Slices/User/UserSlice'
 
 const Register = () => {
   const { t } = useTranslation()
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
@@ -19,10 +30,18 @@ const Register = () => {
 
   const authenticated = useSelector(isAuthenticated)
 
+  const [title, setTitle] = useState(UserTitle.None as string)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const [firstNameError, setFirstNameError] = useState('')
+  const [lastNameError, setLastNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+
+  const [registerError, setRegisterError] = useState('')
 
   useEffect(() => {
     if (authenticated) {
@@ -32,25 +51,35 @@ const Register = () => {
 
   const validateInput = () => {
     if (!firstName) {
+      setFirstNameError(t('features.register.invalid.firstName'))
       return false
     }
 
     if (!lastName) {
+      setLastNameError(t('features.register.invalid.lastName'))
       return false
     }
 
     if (!email) {
+      setEmailError(t('features.register.invalid.email'))
       return false
     }
 
     if (!password) {
+      setPasswordError(t('features.register.invalid.password'))
       return false
     }
 
     return true
   }
 
-  const onRegister = () => {
+  const onRegister = async () => {
+    setRegisterError('')
+    setFirstNameError('')
+    setLastNameError('')
+    setEmailError('')
+    setPasswordError('')
+
     const isValidInput = validateInput()
     if (!isValidInput) {
       return
@@ -58,6 +87,7 @@ const Register = () => {
 
     const user: User = {
       id: uuidv4(),
+      title: title as UserTitle,
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -71,12 +101,17 @@ const Register = () => {
       }
     }
 
-    dispatch(storeUser(user))
+    try {
+      await Api.createUser(user)
+    } catch (error) {
+      setRegisterError(t('features.register.error.failed'))
+      return
+    }
 
     if (redirectUrl) {
       navigate(redirectUrl)
     } else {
-      navigate('/')
+      navigate('/login')
     }
   }
 
@@ -92,6 +127,7 @@ const Register = () => {
     >
       <Typography variant='h3'>{t('features.register.header')}</Typography>
       <Box
+        component='form'
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -101,6 +137,15 @@ const Register = () => {
           padding: 5
         }}
       >
+        <FormControl fullWidth>
+          <InputLabel>{t('features.register.title.header')}</InputLabel>
+          <Select label={t('features.register.title.header')} value={title} onChange={(e) => setTitle(e.target.value)}>
+            <MenuItem value={UserTitle.None}>{t('features.register.title.none')}</MenuItem>
+            <MenuItem value={UserTitle.Mr}>{t('features.register.title.mr')}</MenuItem>
+            <MenuItem value={UserTitle.Ms}>{t('features.register.title.ms')}</MenuItem>
+            <MenuItem value={UserTitle.Dr}>{t('features.register.title.dr')}</MenuItem>
+          </Select>
+        </FormControl>
         <Box
           sx={{
             display: 'flex',
@@ -114,33 +159,45 @@ const Register = () => {
           <TextField
             label={t('features.register.firstName')}
             variant='outlined'
+            autoComplete='given-name'
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            helperText={firstNameError}
             fullWidth
           />
           <TextField
             label={t('features.register.lastName')}
             variant='outlined'
+            autoComplete='family-name'
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            helperText={lastNameError}
             fullWidth
           />
         </Box>
         <TextField
           label={t('features.register.email')}
           variant='outlined'
+          type='email'
+          autoComplete='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          helperText={emailError}
           fullWidth
         />
         <TextField
           label={t('features.register.password')}
           variant='outlined'
           type='password'
+          autoComplete='current-password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          helperText={passwordError}
           fullWidth
         />
+        <Typography variant='body1' color='error'>
+          {registerError}
+        </Typography>
         <FormControlLabel control={<Checkbox />} label={t('features.register.emailUpdates')} />
         <Button variant='contained' onClick={() => onRegister()} fullWidth>
           {t('features.register.submit')}

@@ -1,4 +1,5 @@
 import { LocalPaperVersion } from '../Models/LocalPaperVersion'
+import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
 import { RawData } from './NewsData'
 
@@ -32,7 +33,11 @@ export class NewsApi {
    * @returns Information about the newspaper agency.
    */
   public static async fetchAgencyInfo(): Promise<NewspaperAgencyInfo> {
+    const log = ApiLog.context('fetchAgencyInfo')
+
     return ApiUtils.delay(() => {
+      log.begin()
+      log.end()
       return {
         name: 'Newspaper Agency',
         city: 'Reutlingen',
@@ -47,7 +52,11 @@ export class NewsApi {
    * @returns All available local paper versions.
    */
   public static async fetchLocalPaperVersions(): Promise<LocalPaperVersion[]> {
+    const log = ApiLog.context('fetchLocalPaperVersions')
+
     return ApiUtils.delay(() => {
+      log.begin()
+      log.end()
       return RawData
     })
   }
@@ -60,7 +69,11 @@ export class NewsApi {
    * @returns All available paper versions for the given zip code.
    */
   public static async fetchLocalPaperVersionsForZipCode(zipCode: string): Promise<LocalPaperVersion[]> {
+    const log = ApiLog.context('fetchLocalPaperVersionsForZipCode')
+
     return ApiUtils.delay(async () => {
+      log.begin()
+
       const startNumber = zipCode.charAt(0)
       const localVersions = await NewsApi.fetchLocalPaperVersions()
 
@@ -77,6 +90,7 @@ export class NewsApi {
           break
       }
 
+      log.end()
       return localVersions
     })
   }

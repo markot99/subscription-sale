@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
-import { User } from '../../../Models/User'
+import { User, UserTitle } from '../../../Models/User'
 import { RootState } from '../../Store'
 
 /**
@@ -37,6 +37,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false
       state.user = {
         id: '',
+        title: UserTitle.None,
         firstName: '',
         lastName: '',
         email: '',

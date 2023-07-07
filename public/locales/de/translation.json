@@ -44,17 +44,34 @@
       "rememberMe": "Angemeldet bleiben?",
       "submit": "Anmelden",
       "forgotPassword": "Passwort vergessen?",
-      "registerNow": "Neu hier? Jetzt registrieren!"
+      "registerNow": "Neu hier? Jetzt registrieren!",
+      "invalidCredentials": "Benutzername oder Passwort falsch!"
     },
     "register": {
       "header": "Registrieren",
+      "title": {
+        "header": "Anrede",
+        "none": "Keine Angabe",
+        "mr": "Herr",
+        "ms": "Frau",
+        "dr": "Dr."
+      },
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail",
       "password": "Passwort",
       "emailUpdates": "Ich will E-Mail Updates erhalten und auf dem laufenden bleiben?",
       "submit": "Registrieren",
-      "logIn": "Bereits registriert? Jetzt anmelden!"
+      "logIn": "Bereits registriert? Jetzt anmelden!",
+      "invalid": {
+        "firstName": "Vorname ist erforderlich!",
+        "lastName": "Nachname ist erforderlich!",
+        "email": "E-Mail ist erforderlich!",
+        "password": "Passwort ist erforderlich!"
+      },
+      "error": {
+        "failed": "Registrierung fehlgeschlagen! Es existiert bereits ein Benutzer mit dieser E-Mail Adresse!"
+      }
     },
     "me": {
       "header": "Persönliche Daten",

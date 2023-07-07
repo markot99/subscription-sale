@@ -10,7 +10,7 @@ export class ApiDefaults {
   /**
    * The default maximum delay.
    */
-  public static readonly defaultMaxDelay = 10000
+  public static readonly defaultMaxDelay = 5000
 }
 
 /**
@@ -27,9 +27,13 @@ export class ApiUtils {
   public static delay<T>(action: () => T): Promise<T> {
     const delay = ApiUtils.random(ApiDefaults.defaultMinDelay, ApiDefaults.defaultMaxDelay)
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(action())
+        try {
+          resolve(action())
+        } catch (error) {
+          reject(error)
+        }
       }, delay)
     })
   }
