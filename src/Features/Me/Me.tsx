@@ -2,8 +2,8 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import { Api } from '../../Api/Api'
 import { authenticate, authenticatedUser } from '../../Store/Slices/Auth/AuthSlice'
-import { updateUser } from '../../Store/Slices/User/UserSlice'
 
 const Me = () => {
   const { t } = useTranslation()
@@ -39,7 +39,7 @@ const Me = () => {
   const [zipCode, setZipCode] = useState(user.invoiceAddress.zipCode ?? '')
   const [country, setCountry] = useState(user.invoiceAddress.country ?? '')
 
-  const onSaveProfile = () => {
+  const onSaveProfile = async () => {
     const userClone = { ...user }
     const addressClone = { ...userClone.invoiceAddress }
 
@@ -56,8 +56,8 @@ const Me = () => {
 
     userClone.invoiceAddress = addressClone
 
-    dispatch(updateUser(userClone))
     dispatch(authenticate(userClone))
+    await Api.updateUser(userClone)
   }
 
   return (

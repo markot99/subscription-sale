@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Api } from '../../Api/Api'
 import { authenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
-import { registeredUsers } from '../../Store/Slices/User/UserSlice'
 
 const Login = () => {
   const { t } = useTranslation()
@@ -15,11 +15,12 @@ const Login = () => {
   const [searchParams] = useSearchParams()
   const redirectUrl = searchParams.get('redirectUrl')
 
-  const users = useSelector(registeredUsers)
   const authenticated = useSelector(isAuthenticated)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const [error, setError] = useState('')
 
   useEffect(() => {
     if (authenticated) {
@@ -27,16 +28,17 @@ const Login = () => {
     }
   }, [authenticated])
 
-  const onLogIn = () => {
-    const user = users.find((user) => username === user.firstName + ' ' + user.lastName && user.password === password)
+  const onLogIn = async () => {
+    setError('')
 
-    if (!user) {
+    try {
+      const user = await Api.loginUser(username, password)
+
+      dispatch(authenticate(user))
+      onLogInSucceeded()
+    } catch (error) {
       onLogInFailed()
-      return
     }
-
-    dispatch(authenticate(user))
-    onLogInSucceeded()
   }
 
   const onLogInSucceeded = () => {
@@ -50,6 +52,8 @@ const Login = () => {
   const onLogInFailed = () => {
     setUsername('')
     setPassword('')
+
+    setError(t('features.login.invalidCredentials'))
   }
 
   return (
@@ -64,6 +68,7 @@ const Login = () => {
     >
       <Typography variant='h3'>{t('features.login.header')}</Typography>
       <Box
+        component='form'
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -77,15 +82,19 @@ const Login = () => {
           label={t('features.login.username')}
           variant='outlined'
           value={username}
+          autoComplete='username'
           onChange={(e) => setUsername(e.target.value)}
+          helperText={error}
           fullWidth
         />
         <TextField
           label={t('features.login.password')}
           variant='outlined'
           type='password'
+          autoComplete='current-password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          helperText={error}
           fullWidth
         />
         <FormControlLabel control={<Checkbox />} label={t('features.login.rememberMe')} />

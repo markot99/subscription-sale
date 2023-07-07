@@ -1,3 +1,4 @@
+import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
 import { RawData, ZipCodeDatagram } from './ZipCodeData'
 
@@ -25,8 +26,12 @@ export class ZipCodeApi {
    *
    * @returns All zip code datagrams.
    */
-  public static async fetch(): Promise<ZipCodeDatagram[]> {
+  public static async fetchZipCodes(): Promise<ZipCodeDatagram[]> {
+    const log = ApiLog.context('fetchZipCodes')
+
     return ApiUtils.delay(() => {
+      log.begin()
+      log.end()
       return RawData
     })
   }
@@ -40,15 +45,21 @@ export class ZipCodeApi {
    * @returns The distance between the two zip codes in kilometers.
    */
   public static async calculateZipCodeDistance(zipCode1: string, zipCode2: string): Promise<number> {
+    const log = ApiLog.context('calculateZipCodeDistance')
+
     return ApiUtils.delay(() => {
+      log.begin()
+
       const datagram1 = RawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode1)
       const datagram2 = RawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode2)
 
       if (!datagram1) {
+        log.error()
         throw new Error(`Zip code does not exist: ${zipCode1}`)
       }
 
       if (!datagram2) {
+        log.error()
         throw new Error(`Zip code does not exist: ${zipCode2}`)
       }
 
@@ -62,6 +73,7 @@ export class ZipCodeApi {
         longitude: datagram2.longitude
       }
 
+      log.end()
       return ZipCodeApi.calculateDistance(coord1, coord2)
     })
   }

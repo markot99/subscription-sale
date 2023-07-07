@@ -49,17 +49,34 @@
       "rememberMe": "Remember Me?",
       "submit": "Log In",
       "forgotPassword": "Forgot Password?",
-      "registerNow": "New here? Register now!"
+      "registerNow": "New here? Register now!",
+      "invalidCredentials": "Invalid Credentials"
     },
     "register": {
       "header": "Register",
+      "title": {
+        "header": "Title",
+        "none": "Not Specified",
+        "mr": "Mr.",
+        "ms": "Ms./Mrs.",
+        "dr": "Dr."
+      },
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
       "password": "Password",
       "emailUpdates": "I want to receive email updates?",
       "submit": "Register",
-      "logIn": "Already have an account? Log In!"
+      "logIn": "Already have an account? Log In!",
+      "invalid": {
+        "firstName": "First Name is required!",
+        "lastName": "Last Name is required!",
+        "email": "Email is required!",
+        "password": "Password is required!"
+      },
+      "error": {
+        "failed": "Registration failed! A user with the given email already exists!"
+      }
     },
     "me": {
       "header": "My Account",
