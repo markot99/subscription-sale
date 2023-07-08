@@ -30,7 +30,7 @@ const Register = () => {
 
   const authenticated = useSelector(isAuthenticated)
 
-  const [title, setTitle] = useState(UserTitle.None as string)
+  const [title, setTitle] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -87,16 +87,16 @@ const Register = () => {
 
     const user: User = {
       id: uuidv4(),
-      title: title as UserTitle,
+      title: title,
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
       invoiceAddress: {
         street: '',
-        streetNumber: '',
-        location: '',
-        zipCode: '',
+        houseNumber: '',
+        city: '',
+        postalCode: '',
         country: ''
       }
     }
@@ -113,6 +113,12 @@ const Register = () => {
     } else {
       navigate('/login')
     }
+  }
+
+  function getEnumKey(enumObj: object, value: string): string | undefined {
+    const keys = Object.keys(enumObj) as (keyof typeof enumObj)[]
+    const matchingKey = keys.find((key) => enumObj[key] === value)
+    return matchingKey ? enumObj[matchingKey] : undefined
   }
 
   return (
@@ -140,10 +146,11 @@ const Register = () => {
         <FormControl fullWidth>
           <InputLabel>{t('features.register.title.header')}</InputLabel>
           <Select label={t('features.register.title.header')} value={title} onChange={(e) => setTitle(e.target.value)}>
-            <MenuItem value={UserTitle.None}>{t('features.register.title.none')}</MenuItem>
-            <MenuItem value={UserTitle.Mr}>{t('features.register.title.mr')}</MenuItem>
-            <MenuItem value={UserTitle.Ms}>{t('features.register.title.ms')}</MenuItem>
-            <MenuItem value={UserTitle.Dr}>{t('features.register.title.dr')}</MenuItem>
+            {Object.values(UserTitle).map((value) => (
+              <MenuItem key={value} value={value}>
+                {t('title.' + getEnumKey(UserTitle, value))}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <Box

@@ -5,7 +5,7 @@
     "firstName": "First name",
     "lastName": "Last name",
     "street": "Street",
-    "streetNumber": "Nr.",
+    "houseNumber": "Nr.",
     "postcode": "Postcode",
     "city": "Ort",
     "country": "Country"
@@ -37,6 +37,11 @@
       "title": "Payment Interval",
       "annual": "Annual",
       "monthly": "Monthly"
+    },
+    "errors": {
+      "unknownZip": "The price calculation failed! The given zip code is unknown!",
+      "setZipFirst": "Please set the zip code first!",
+      "general": "The price calculation failed!"
     },
     "deliveryFrom": "Delivery from",
     "price": "Your Price:",
@@ -95,7 +100,7 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "street": "Street",
-      "streetNumber": "Nr.",
+      "houseNumber": "Nr.",
       "zipCode": "Zip Code",
       "location": "Location",
       "country": "Country",

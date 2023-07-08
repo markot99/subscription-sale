@@ -3,42 +3,73 @@ import { DatePicker } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LocalPaperVersion } from '../../../Models/LocalPaperVersion'
-import { DeliveryMethod, PaymentInterval, SubscriptionInterval } from '../../../Models/Subscription'
+import { useDispatch, useSelector } from 'react-redux'
+import { NewsApi } from '../../../Api/NewsApi'
+import { LocalEdition } from '../../../Api/NewsData'
+import { AlertSeverity } from '../../../Models/Alert'
+import { DeliveryMethod, PaymentInterval, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
+import { setAlert } from '../../../Store/Slices/AlertSlice/AlertSlice'
+import { setSubscription } from '../../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
+import { AppDispatch, RootState } from '../../../Store/Store'
+import Price from '../Price/Price'
 
-function Delivery(props: { selectedNewspaper: LocalPaperVersion; price: string }) {
-  const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(null)
-  const [selectedSubscriptionInterval, setSelectedSubscriptionInterval] = useState<SubscriptionInterval>()
+function Delivery() {
+  const { t } = useTranslation()
+  const dispatch = useDispatch() as AppDispatch
+
+  const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
+  const [localPaperEditions, setLocalPaperEditions] = React.useState<LocalEdition[]>([])
 
   const handleDateChange = (date: moment.Moment | null) => {
-    setSelectedDate(date)
+    if (date === null) return
+    dispatch(
+      setSubscription({
+        ...subscription,
+        startDay: date.format('YYYY-MM-DD')
+      })
+    )
   }
 
   const getDisabledDates = (date: moment.Moment) => {
-    if (selectedSubscriptionInterval == SubscriptionInterval.Weekends) {
+    if (subscription.subscriptionInterval == SubscriptionInterval.Weekends) {
       return !(date.isoWeekday() === 6 || date.isoWeekday() === 7)
-    } else if (selectedSubscriptionInterval == SubscriptionInterval.Daily) {
+    } else if (subscription.subscriptionInterval == SubscriptionInterval.Daily) {
       return !(date.isoWeekday() >= 1 && date.isoWeekday() <= 7)
     } else {
       return true
     }
   }
 
-  const { t } = useTranslation()
-  const { selectedNewspaper, price } = props
-  console.log(selectedNewspaper)
+  const refreshLocalEditions = async () => {
+    try {
+      const localEditions = await NewsApi.fetchLocalPaperVersionsForZipCode(subscription.deliveryAddress.postalCode)
+      setLocalPaperEditions(localEditions)
+    } catch (error) {
+      console.log('Failed to refresh local editions')
+    }
+  }
 
-  const [edition, setEdition] = useState('')
-  const [deliveryDates, setDeliveryDates] = useState('')
+  useEffect(() => {
+    console.log('plz changed')
+    refreshLocalEditions()
+  }, [subscription.deliveryAddress.postalCode])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log({
-      edition,
-      deliveryDates
-    })
+  }
+
+  const handleEmptyEditionClick = () => {
+    if (localPaperEditions.length === 0) {
+      dispatch(setAlert({ message: t('delivery.errors.setZipFirst'), severity: AlertSeverity.Warning, timeout: 3 }))
+    }
+  }
+
+  function getEnumKey(enumObj: object, value: string): string | undefined {
+    const keys = Object.keys(enumObj) as (keyof typeof enumObj)[]
+    const matchingKey = keys.find((key) => enumObj[key] === value)
+    return matchingKey ? enumObj[matchingKey] : undefined
   }
 
   return (
@@ -52,14 +83,22 @@ function Delivery(props: { selectedNewspaper: LocalPaperVersion; price: string }
               select
               fullWidth
               label={t('delivery.edition')}
-              value={edition}
-              onChange={(e) => setEdition(e.target.value as string)}
+              value={subscription.edition}
+              onFocus={handleEmptyEditionClick}
+              onChange={(e) =>
+                dispatch(
+                  setSubscription({
+                    ...subscription,
+                    edition: e.target.value as string
+                  })
+                )
+              }
             >
-              {/*selectedNewspaper.editions.map((edition, index) => (
-                <MenuItem key={index} value={edition}>
-                  {edition}
+              {localPaperEditions.map((edition) => (
+                <MenuItem key={edition.id} value={edition.id}>
+                  {edition.name}
                 </MenuItem>
-              ))*/}
+              ))}
             </TextField>
           </Grid>
           <Grid item xs={12}>
@@ -67,12 +106,19 @@ function Delivery(props: { selectedNewspaper: LocalPaperVersion; price: string }
               select
               fullWidth
               label={t('delivery.deliveryDays.title')}
-              value={selectedSubscriptionInterval}
-              onChange={(e) => setSelectedSubscriptionInterval(e.target.value as SubscriptionInterval)}
+              value={subscription.subscriptionInterval}
+              onChange={(e) =>
+                dispatch(
+                  setSubscription({
+                    ...subscription,
+                    subscriptionInterval: e.target.value as SubscriptionInterval
+                  })
+                )
+              }
             >
-              {Object.values(SubscriptionInterval).map((value) => (
-                <MenuItem key={value} value={value}>
-                  {t('delivery.deliveryDays.' + value)}
+              {Object.values(SubscriptionInterval).map((key) => (
+                <MenuItem key={key} value={key}>
+                  {t('delivery.deliveryDays.' + getEnumKey(SubscriptionInterval, key))}
                 </MenuItem>
               ))}
             </TextField>
@@ -82,12 +128,19 @@ function Delivery(props: { selectedNewspaper: LocalPaperVersion; price: string }
               select
               fullWidth
               label={t('delivery.deliveryMethod.title')}
-              value={deliveryDates}
-              onChange={(e) => setDeliveryDates(e.target.value as string)}
+              value={subscription.deliveryMethod}
+              onChange={(e) =>
+                dispatch(
+                  setSubscription({
+                    ...subscription,
+                    deliveryMethod: e.target.value as DeliveryMethod
+                  })
+                )
+              }
             >
-              {Object.values(DeliveryMethod).map((value) => (
-                <MenuItem key={value} value={value}>
-                  {t('delivery.deliveryMethod.' + value)}
+              {Object.values(DeliveryMethod).map((key) => (
+                <MenuItem key={key} value={key}>
+                  {t('delivery.deliveryMethod.' + getEnumKey(DeliveryMethod, key))}
                 </MenuItem>
               ))}
             </TextField>
@@ -97,33 +150,34 @@ function Delivery(props: { selectedNewspaper: LocalPaperVersion; price: string }
               select
               fullWidth
               label={t('delivery.paymentInterval.title')}
-              value={deliveryDates}
-              onChange={(e) => setDeliveryDates(e.target.value as string)}
+              value={subscription.paymentInterval}
+              onChange={(e) =>
+                dispatch(
+                  setSubscription({
+                    ...subscription,
+                    paymentInterval: e.target.value as PaymentInterval
+                  })
+                )
+              }
             >
-              {Object.values(PaymentInterval).map((value) => (
-                <MenuItem key={value} value={value}>
-                  {t('delivery.paymentInterval.' + value)}
+              {Object.values(PaymentInterval).map((key) => (
+                <MenuItem key={key} value={key}>
+                  {t('delivery.paymentInterval.' + getEnumKey(PaymentInterval, key))}
                 </MenuItem>
               ))}
             </TextField>
           </Grid>
           <Grid item xs={12}>
             <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='de'>
-              <DatePicker value={selectedDate} onChange={handleDateChange} shouldDisableDate={getDisabledDates} />
+              <DatePicker
+                value={moment(subscription.startDay, 'YYYY-MM-DD')}
+                onChange={handleDateChange}
+                shouldDisableDate={getDisabledDates}
+              />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12}>
-            <br />
-            <Typography variant='h4'>{t('delivery.price')}</Typography>
-            <br />
-            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-              <Typography variant='h3' sx={{ paddingLeft: '2em' }}>
-                {price}
-              </Typography>
-              <Typography variant='h5' sx={{ paddingLeft: '1em' }}>
-                {t('delivery.priceUnit')}
-              </Typography>
-            </Box>
+            <Price />
           </Grid>
         </Grid>
       </form>

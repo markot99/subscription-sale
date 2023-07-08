@@ -5,7 +5,7 @@
     "firstName": "Vorname",
     "lastName": "Nachname",
     "street": "Straße",
-    "streetNumber": "Nr.",
+    "houseNumber": "Nr.",
     "postcode": "PLZ",
     "city": "Ort",
     "country": "Land"
@@ -37,6 +37,11 @@
       "title": "Zahlungsintervall",
       "annual": "Jährlich",
       "monthly": "Monatlich"
+    },
+    "errors": {
+      "unknownZip": "Die Preisberechnung ist fehlgeschlagen! Die Postleitzahl ist nicht bekannt!",
+      "setZipFirst": "Bitte geben Sie zuerst eine Postleitzahl ein!",
+      "general": "Die Preisberechnung ist fehlgeschlagen!"
     },
     "deliveryFrom": "Lieferung ab",
     "price": "Ihr Preis:",
@@ -95,7 +100,7 @@
       "password": "Passwort",
       "confirmPassword": "Passwort bestätigen",
       "street": "Straße",
-      "streetNumber": "Nr.",
+      "houseNumber": "Nr.",
       "zipCode": "Postleitzahl",
       "location": "Ort",
       "country": "Land",

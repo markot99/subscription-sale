@@ -34,9 +34,9 @@ const Me = () => {
   const [confirmPassword, setConfirmPassword] = useState(user.password)
 
   const [street, setStreet] = useState(user.invoiceAddress.street ?? '')
-  const [streetNumber, setStreetNumber] = useState(user.invoiceAddress.streetNumber ?? '')
-  const [location, setLocation] = useState(user.invoiceAddress.location ?? '')
-  const [zipCode, setZipCode] = useState(user.invoiceAddress.zipCode ?? '')
+  const [houseNumber, setStreetNumber] = useState(user.invoiceAddress.houseNumber ?? '')
+  const [city, setCity] = useState(user.invoiceAddress.city ?? '')
+  const [postalCode, setPostalcode] = useState(user.invoiceAddress.postalCode ?? '')
   const [country, setCountry] = useState(user.invoiceAddress.country ?? '')
 
   const onSaveProfile = async () => {
@@ -49,9 +49,9 @@ const Me = () => {
     userClone.password = password
 
     addressClone.street = street
-    addressClone.streetNumber = streetNumber
-    addressClone.location = location
-    addressClone.zipCode = zipCode
+    addressClone.houseNumber = houseNumber
+    addressClone.city = city
+    addressClone.postalCode = postalCode
     addressClone.country = country
 
     userClone.invoiceAddress = addressClone
@@ -168,9 +168,9 @@ const Me = () => {
                 fullWidth
               />
               <TextField
-                label={t('features.me.streetNumber')}
+                label={t('features.me.houseNumber')}
                 variant='outlined'
-                value={streetNumber}
+                value={houseNumber}
                 onChange={(e) => setStreetNumber(e.target.value)}
                 fullWidth
               />
@@ -178,15 +178,15 @@ const Me = () => {
             <TextField
               label={t('features.me.location')}
               variant='outlined'
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               fullWidth
             />
             <TextField
               label={t('features.me.zipCode')}
               variant='outlined'
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
+              value={postalCode}
+              onChange={(e) => setPostalcode(e.target.value)}
               fullWidth
             />
             <TextField

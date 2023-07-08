@@ -1,27 +1,21 @@
-import { Box, Button, Grid, Skeleton, Typography } from '@mui/material'
+import { Box, Button, Grid, Skeleton } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { NewsApi } from '../../Api/NewsApi'
-import { DeliveryAddress } from '../../Models/DeliveryAddress'
 import { availablePaperVersions, fetchLocalPaperVersions } from '../../Store/Slices/LocalPaperVersion/LocalPaperVersionSlice'
+import { subscriptionValid } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch } from '../../Store/Store'
-import Address from '../Address/Address'
 import { LocalPaperVersion } from './../../Models/LocalPaperVersion'
 import Delivery from './Delivery/Delivery'
 import SubscriptionPreview from './SubscriptionPreview/SubscriptionPreview'
+import DeliveryAddress from './DeliveryAddress/DeliveryAddress'
 
 function Configurator() {
   const { t } = useTranslation()
 
   const dispatch = useDispatch() as AppDispatch
   const [selectedNewspaper, setSelectedNewsPaper] = React.useState<LocalPaperVersion>({} as LocalPaperVersion)
-  //const [subscription, setSubscription] = React.useState<Subscription>({} as Subscription)
-  //const [localPaperEditions, setLocalPaperEditions] = React.useState<LocalEdition[]>([])
-  const [deliveryAddress, setDeliveryAddress] = React.useState<DeliveryAddress>({} as DeliveryAddress)
-
-  const [price, setPrice] = React.useState('?')
 
   function useQuery() {
     const { search } = useLocation()
@@ -49,36 +43,6 @@ function Configurator() {
     }
   }, [localPaperVersions])
 
-  /*useEffect(() => {
-    const localEditions = 
-    setLocalPaperEditions(localEditions)
-  }, [deliveryAddress.postalCode])*/
-
-  const calculatePrice = async () => {
-    try {
-      const price = await NewsApi.calculateNewspaperPrice(deliveryAddress.postalCode, deliveryAddress.country, selectedNewspaper.id)
-      setPrice(price)
-    } catch (error) {
-      console.log('Failed to delete item')
-    }
-  }
-
-  const configuratorValid = () => {
-    if (deliveryAddress.title === undefined || deliveryAddress.title === '') return false
-    if (deliveryAddress.firstName === undefined || deliveryAddress.firstName === '') return false
-    if (deliveryAddress.lastName === undefined || deliveryAddress.lastName === '') return false
-    if (deliveryAddress.street === undefined || deliveryAddress.street === '') return false
-    if (deliveryAddress.streetNumber === undefined || deliveryAddress.streetNumber === '') return false
-    if (deliveryAddress.postalCode === undefined || deliveryAddress.postalCode === '') return false
-    if (deliveryAddress.city === undefined || deliveryAddress.city === '') return false
-    if (deliveryAddress.country === undefined || deliveryAddress.country === '') return false
-    return true
-  }
-
-  const deliveryValid = () => {
-    return false
-  }
-
   return (
     <Box>
       <Grid container spacing={4} alignItems={'stretch'}>
@@ -100,27 +64,14 @@ function Configurator() {
           <SubscriptionPreview selectedNewspaper={selectedNewspaper} />
         </Grid>
         <Grid item xs={12} md={8} order={{ xs: 3, md: 3 }}>
-          <Typography variant='h4'>{t('delivery.address')}</Typography>
-          <br />
-          <Address address={deliveryAddress} setAddress={setDeliveryAddress} disabled={false} />
+          <DeliveryAddress />
         </Grid>
         <Grid item xs={12} md={4} order={{ xs: 5, md: 4 }}>
-          <Delivery selectedNewspaper={selectedNewspaper} price={price}></Delivery>
+          <Delivery />
         </Grid>
-        <Grid item xs={12} md={8} order={{ xs: 4, md: 5 }}>
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            sx={{ float: 'right' }}
-            onClick={calculatePrice}
-            disabled={!configuratorValid()}
-          >
-            {t('delivery.refresh')}
-          </Button>
-        </Grid>
+        <Grid item xs={12} md={8} order={{ xs: 4, md: 5 }}></Grid>
         <Grid item xs={12} md={4} order={{ xs: 6, md: 6 }}>
-          <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }} disabled={!deliveryValid()}>
+          <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }} disabled={!useSelector(subscriptionValid)}>
             {t('delivery.order')}
           </Button>
         </Grid>

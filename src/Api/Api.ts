@@ -7,7 +7,7 @@ import { ApiUtils } from './ApiUtils'
  * Represents a fake user for demonstration purposes.
  */
 const adminUser: User = {
-  id: 'admin',
+  id: '432423-324234',
   title: 'Mr.',
   firstName: 'Ben',
   lastName: 'Kenobi',
@@ -15,9 +15,9 @@ const adminUser: User = {
   password: '0000',
   invoiceAddress: {
     street: 'Jedi Temple',
-    streetNumber: 'One',
-    zipCode: '77777',
-    location: 'Courescant',
+    houseNumber: 'One',
+    postalCode: '77777',
+    city: 'Courescant',
     country: 'Courescant'
   }
 }

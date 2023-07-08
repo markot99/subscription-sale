@@ -1,28 +1,23 @@
-import { InvoiceAddress } from './InvoiceAddress'
+import { Address } from './Address'
 
 /**
  * Describes all possible titles of a user.
  */
 export enum UserTitle {
   /**
-   * No title.
-   */
-  None = 'None',
-
-  /**
    * The title Mr.
    */
-  Mr = 'Mr',
+  Mr = 'mr',
 
   /**
    * The title Ms.
    */
-  Ms = 'Ms',
+  Ms = 'ms',
 
   /**
-   * The title Dr.
+   * The title for other genders.
    */
-  Dr = 'Dr'
+  Other = 'other'
 }
 
 /**
@@ -62,5 +57,5 @@ export interface User {
   /**
    * The invoice address of the user.
    */
-  invoiceAddress: InvoiceAddress
+  invoiceAddress: Address
 }

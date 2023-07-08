@@ -65,7 +65,7 @@ export default function FinalCheck() {
                 <strong>{t('address.street')}:</strong> 29.02.3333
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.streetNumber')}:</strong> 2332
+                <strong>{t('address.houseNumber')}:</strong> 2332
               </Typography>
               <Typography variant='h6'>
                 <strong>{t('address.postcode')}:</strong> 2332
@@ -101,7 +101,7 @@ export default function FinalCheck() {
                 <strong>{t('address.street')}:</strong> 29.02.3333
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.streetNumber')}:</strong> 2332
+                <strong>{t('address.houseNumber')}:</strong> 2332
               </Typography>
               <Typography variant='h6'>
                 <strong>{t('address.postcode')}:</strong> 2332

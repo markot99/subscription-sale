@@ -1,8 +1,4 @@
-/**
- * Describes all possible subscription types.
- */
-export const SubscriptionTypes = ['Printed', 'E-Paper', 'Website'] as const
-export type SubscriptionType = (typeof SubscriptionTypes)[number]
+import { DetailedAddress } from './Address'
 
 /**
  * Describes all possible delivery methods.
@@ -69,39 +65,34 @@ export enum SubscriptionInterval {
  */
 export interface Subscription {
   /**
-   * The id of the subscription.
+   * The ID of the subscription.
    */
   id: string
 
   /**
-   * The id of the customer.
+   * The ID of the user.
    */
   userId: string
 
   /**
-   * The date when the subscription was created.
+   * The edition of the newspaper.
    */
-  created: Date
+  edition: string
 
   /**
-   * The date when the subscription has started.
+   * The delivery address
    */
-  startDate: Date
+  deliveryAddress: DetailedAddress
 
   /**
-   * The date when the subscription has ended.
+   * The invoice address
    */
-  endDate: Date
+  invoiceAddress: DetailedAddress
 
   /**
-   * Indictes whether the data privacy was accepted.
+   * The subscription interval of the subscription.
    */
-  dataPrivacyAccepted: boolean
-
-  /**
-   * The type of the subscription.
-   */
-  type: SubscriptionType
+  subscriptionInterval: SubscriptionInterval
 
   /**
    * The delivery method of the subscription.
@@ -119,17 +110,12 @@ export interface Subscription {
   paymentInterval: PaymentInterval
 
   /**
-   * The subscription interval of the subscription.
+   * Start Day
    */
-  subscriptionInterval: SubscriptionInterval
+  startDay: string
 
   /**
-   * The price of the subscription per year.
+   * The monthly price of the subscription.
    */
   price: number
-
-  /**
-   * The number of local paper version.
-   */
-  localPaperVersions: number
 }

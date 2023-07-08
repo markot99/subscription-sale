@@ -9,6 +9,7 @@ import Me from '../Me/Me'
 import Register from '../Register/Register'
 import Configurator from './../Configurator/Configurator'
 import Header from './../Header/Header'
+import AlertBox from '../AlertBox/AlertBox'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       }}
     >
       <Header />
+      <AlertBox />
       <Box
         sx={{
           width: 1,

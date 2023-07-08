@@ -1,12 +1,13 @@
 import { Box, Grid, MenuItem, TextField } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CountryApi } from '../../Api/CountryApi'
-import { DeliveryAddress, Title } from '../../Models/DeliveryAddress'
+import { CountryApi } from '../../../Api/CountryApi'
+import { DetailedAddress } from '../../../Models/Address'
+import { UserTitle } from '../../../Models/User'
 
 function Address(props: {
-  address: DeliveryAddress
-  setAddress: React.Dispatch<React.SetStateAction<DeliveryAddress>>
+  address: DetailedAddress
+  setAddress: React.Dispatch<React.SetStateAction<DetailedAddress>>
   disabled: boolean
 }) {
   const { t } = useTranslation()
@@ -49,7 +50,7 @@ function Address(props: {
                 }))
               }
             >
-              {Object.values(Title).map((value) => (
+              {Object.values(UserTitle).map((value) => (
                 <MenuItem key={value} value={value}>
                   {t('title.' + value)}
                 </MenuItem>
@@ -102,12 +103,12 @@ function Address(props: {
             <TextField
               disabled={disabled}
               fullWidth
-              label={t('address.streetNumber')}
-              value={address.streetNumber}
+              label={t('address.houseNumber')}
+              value={address.houseNumber}
               onChange={(e) =>
                 setAddress((prevState) => ({
                   ...prevState,
-                  streetNumber: e.target.value
+                  houseNumber: e.target.value
                 }))
               }
             />
