@@ -6,9 +6,13 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import NewspaperIcon from '@mui/icons-material/Newspaper'
 import PaymentIcon from '@mui/icons-material/Payment'
 import ReceiptIcon from '@mui/icons-material/Receipt'
+import { useSelector } from 'react-redux'
+import { Subscription } from '../../../Models/Subscription'
+import { RootState } from '../../../Store/Store'
 
 export default function FinalCheck() {
   const { t } = useTranslation()
+  const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
 
   return (
     <Box>
@@ -26,19 +30,19 @@ export default function FinalCheck() {
                 {t('subscriptionPreview.yourSubscription')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.newspaper')}:</strong> Norberger Bote
+                <strong>{t('delivery.newspaper')}:</strong> {subscription.id}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.edition')}:</strong> Ost
+                <strong>{t('delivery.edition')}:</strong> {subscription.edition}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.deliveryDays')}:</strong> Mo-Di
+                <strong>{t('delivery.deliveryDays.title')}:</strong> {t('delivery.deliveryDays.' + subscription.subscriptionInterval)}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.deliveryFrom')}:</strong> 29.02.3333
+                <strong>{t('delivery.deliveryFrom')}:</strong> {subscription.startDay}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.price')}:</strong> 23.32 {t('delivery.priceUnit')}
+                <strong>{t('delivery.price')}:</strong> {subscription.price} {t('delivery.priceUnit')}
               </Typography>
             </Box>
           </Card>
@@ -53,28 +57,28 @@ export default function FinalCheck() {
                 {t('delivery.address')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.title')}:</strong> Norberger Bote
+                <strong>{t('address.title')}:</strong> {t('title.' + subscription.deliveryAddress.title)}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.firstName')}:</strong> Ost
+                <strong>{t('address.firstName')}:</strong> {subscription.deliveryAddress.firstName}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.lastName')}:</strong> Mo-Di
+                <strong>{t('address.lastName')}:</strong> {subscription.deliveryAddress.lastName}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.street')}:</strong> 29.02.3333
+                <strong>{t('address.street')}:</strong> {subscription.deliveryAddress.street}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.houseNumber')}:</strong> 2332
+                <strong>{t('address.houseNumber')}:</strong> {subscription.deliveryAddress.houseNumber}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.postcode')}:</strong> 2332
+                <strong>{t('address.postcode')}:</strong> {subscription.deliveryAddress.postalCode}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.city')}:</strong> 2332
+                <strong>{t('address.city')}:</strong> {subscription.deliveryAddress.city}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.country')}:</strong> 2332
+                <strong>{t('address.country')}:</strong> {subscription.deliveryAddress.country}
               </Typography>
             </Box>
           </Card>
@@ -89,28 +93,28 @@ export default function FinalCheck() {
                 {t('features.checkout.invoice.title')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.title')}:</strong> Norberger Bote
+                <strong>{t('address.title')}:</strong> {t('title.' + subscription.invoiceAddress.title)}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.firstName')}:</strong> Ost
+                <strong>{t('address.firstName')}:</strong> {subscription.invoiceAddress.firstName}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.lastName')}:</strong> Mo-Di
+                <strong>{t('address.lastName')}:</strong> {subscription.invoiceAddress.lastName}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.street')}:</strong> 29.02.3333
+                <strong>{t('address.street')}:</strong> {subscription.invoiceAddress.street}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.houseNumber')}:</strong> 2332
+                <strong>{t('address.houseNumber')}:</strong> {subscription.invoiceAddress.houseNumber}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.postcode')}:</strong> 2332
+                <strong>{t('address.postcode')}:</strong> {subscription.invoiceAddress.postalCode}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.city')}:</strong> 2332
+                <strong>{t('address.city')}:</strong> {subscription.invoiceAddress.city}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.country')}:</strong> 2332
+                <strong>{t('address.country')}:</strong> {subscription.invoiceAddress.country}
               </Typography>
             </Box>
           </Card>
@@ -125,7 +129,8 @@ export default function FinalCheck() {
                 {t('features.checkout.payment.title')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('features.checkout.payment.type')}:</strong> Paypal
+                <strong>{t('features.checkout.payment.type')}:</strong>{' '}
+                {t('features.checkout.payment.provider.' + subscription.paymentType)}
               </Typography>
             </Box>
           </Card>

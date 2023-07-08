@@ -3,6 +3,7 @@ import moment from 'moment'
 import { NewsApi } from '../../../Api/NewsApi'
 import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
 import { RootState } from '../../Store'
+import { Api } from '../../../Api/Api'
 
 /**
  * The state of the newly configured subscription.
@@ -83,6 +84,12 @@ const subscriptionSlice = createSlice({
       state.subscription = action.payload
       state.subscription.price = 0
     })
+    builder.addCase(confirmSubscription.rejected, (state, action) => {
+      console.log(action.error.message)
+    })
+    builder.addCase(confirmSubscription.fulfilled, (state, action) => {
+      state.subscription = action.payload
+    })
   }
 })
 
@@ -145,6 +152,14 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
     return price
   }
   return 0
+})
+
+/**
+ * Confirm new subscription
+ */
+export const confirmSubscription = createAsyncThunk('subscription/confirmSubscription', async (subscription: Subscription) => {
+  const createdSubscription = await Api.createSubscription(subscription)
+  return createdSubscription
 })
 
 export const cachedSubscription = createSelector(

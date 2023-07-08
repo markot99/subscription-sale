@@ -126,7 +126,14 @@
       },
       "buttonNext": "Next",
       "buttonBack": "Back",
-      "buttonFinish": "Order"
+      "buttonFinish": "Order",
+      "privacyAccepted": "Ich stimme den Datenschutzbestimmungen zu."
+    },
+    "confirmation": {
+      "title": "Order Confirmation",
+      "thanks": "Thank you for your order!",
+      "orderNumber": "Your order number is: ",
+      "goToPersonalArea": "Go to personal area"
     }
   }
 }

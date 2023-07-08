@@ -1,28 +1,32 @@
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { PaymentType, Subscription } from '../../../Models/Subscription'
+import { setSubscription } from '../../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
+import { AppDispatch, RootState } from '../../../Store/Store'
 
 export default function Payment() {
   const { t } = useTranslation()
+  const dispatch = useDispatch() as AppDispatch
 
-  const [selectedPayment, setSelectedPayment] = React.useState('')
+  const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
 
   const payments = [
     {
-      name: t('features.checkout.payment.provider.creditCard'),
+      type: PaymentType.CreditCard,
       images: ['/images/payment/mastercard.svg', '/images/payment/visa.svg']
     },
     {
-      name: t('features.checkout.payment.provider.paypal'),
+      type: PaymentType.PayPal,
       images: ['/images/payment/paypal.svg']
     },
     {
-      name: t('features.checkout.payment.provider.amazonpay'),
+      type: PaymentType.AmazonPay,
       images: ['/images/payment/amazonpay.svg']
     },
     {
-      name: t('features.checkout.payment.provider.klarna'),
+      type: PaymentType.Klarna,
       images: ['/images/payment/klarna.svg']
     }
   ]
@@ -35,8 +39,8 @@ export default function Payment() {
 
       <Grid container spacing={2}>
         {payments.map((payment) => (
-          <Grid key={payment.name} item xs={12} sm={6}>
-            <Card sx={selectedPayment === payment.name ? { border: '2px solid #1976d2' } : {}}>
+          <Grid key={payment.type} item xs={12} sm={6}>
+            <Card sx={subscription.paymentType === payment.type ? { border: '2px solid #1976d2' } : {}}>
               <CardActionArea
                 sx={{
                   height: '100%',
@@ -44,9 +48,14 @@ export default function Payment() {
                   flexDirection: 'column',
                   justifyContent: 'flex-start'
                 }}
-                onClick={() => {
-                  setSelectedPayment(payment.name)
-                }}
+                onClick={() =>
+                  dispatch(
+                    setSubscription({
+                      ...subscription,
+                      paymentType: payment.type
+                    })
+                  )
+                }
               >
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   {payment.images.map((image, index) => (
@@ -61,7 +70,7 @@ export default function Payment() {
                 </Box>
 
                 <CardContent>
-                  <Typography variant='h4'>{payment.name}</Typography>
+                  <Typography variant='h4'>{t('features.checkout.payment.provider.' + payment.type)} </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>

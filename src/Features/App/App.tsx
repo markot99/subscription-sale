@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRoute'
 import AlertBox from '../AlertBox/AlertBox'
 import Checkout from '../Checkout/Checkout'
+import Confirmation from '../Confirmation/Confirmation'
 import Footer from '../Footer/Footer'
 import Home from '../Home/Home'
 import Login from '../Login/Login'
@@ -40,6 +41,14 @@ function App() {
               <ProtectedRoute>
                 <Checkout />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/confirmation'
+            element={
+              //<ProtectedRoute>
+              <Confirmation />
+              //</ProtectedRoute>
             }
           />
           <Route

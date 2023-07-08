@@ -24,7 +24,6 @@ LinkBehavior.displayName = 'LinkBehavior'
  */
 const Theme = createTheme({
   palette: {
-    mode: 'dark',
     primary: green,
     secondary: cyan,
     error: red,

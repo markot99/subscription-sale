@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { Subscription } from '../Models/Subscription'
 import { User } from '../Models/User'
 import { ApiLog } from './ApiLog'
@@ -188,20 +189,19 @@ export class Api {
    *
    * @param subscription The subscription to create.
    */
-  public static async createSubscription(subscription: Subscription): Promise<void> {
+  public static async createSubscription(subscription: Subscription): Promise<Subscription> {
     const log = ApiLog.context('createSubscription')
 
     return ApiUtils.delay(() => {
       log.begin()
-      const index = Api.SubscriptionDatabase.findIndex((subscription) => subscription.id === subscription.id)
 
-      if (index !== -1) {
-        log.error()
-        throw new Error('Subscription already exists')
-      }
+      // copy subscription with uuid
+      const copySubscription = { ...subscription, id: uuidv4() }
 
-      Api.SubscriptionDatabase.push(subscription)
+      Api.SubscriptionDatabase.push(copySubscription)
       log.end()
+
+      return copySubscription
     })
   }
 

@@ -25,9 +25,19 @@ export enum PaymentType {
   CreditCard = 'creditCard',
 
   /**
-   * debit card.
+   * paypal.
    */
-  DirectDebit = 'directDebit'
+  PayPal = 'paypal',
+
+  /**
+   * amazon pay.
+   */
+  AmazonPay = 'amazonpay',
+
+  /**
+   * klarna
+   */
+  Klarna = 'klarna'
 }
 
 /**
