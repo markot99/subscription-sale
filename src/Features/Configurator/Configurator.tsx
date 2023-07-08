@@ -4,39 +4,40 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { availablePaperVersions, fetchLocalPaperVersions } from '../../Store/Slices/LocalPaperVersion/LocalPaperVersionSlice'
-import { subscriptionValid } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
+import { newSubscription, subscriptionPriceIsSet } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch } from '../../Store/Store'
 import { LocalPaperVersion } from './../../Models/LocalPaperVersion'
 import Delivery from './Delivery/Delivery'
-import SubscriptionPreview from './SubscriptionPreview/SubscriptionPreview'
 import DeliveryAddress from './DeliveryAddress/DeliveryAddress'
+import SubscriptionPreview from './SubscriptionPreview/SubscriptionPreview'
 
 function Configurator() {
   const { t } = useTranslation()
 
   const dispatch = useDispatch() as AppDispatch
   const [selectedNewspaper, setSelectedNewsPaper] = React.useState<LocalPaperVersion>({} as LocalPaperVersion)
+  const localPaperVersions = useSelector(availablePaperVersions)
 
   function useQuery() {
     const { search } = useLocation()
     return React.useMemo(() => new URLSearchParams(search), [search])
   }
-
   const query = useQuery()
-  const newspaperIDStr = query.get('id')
+  const newspaperID = query.get('id')
 
-  const localPaperVersions = useSelector(availablePaperVersions)
+  useEffect(() => {
+    if (newspaperID != null) {
+      dispatch(newSubscription(newspaperID))
+    }
+  }, [newspaperID])
 
   useEffect(() => {
     dispatch(fetchLocalPaperVersions())
-  }, [dispatch])
+  }, [newspaperID])
 
   useEffect(() => {
-    if (newspaperIDStr === null) return
-    const newspaperID = Number(newspaperIDStr)
-    if (isNaN(newspaperID)) return
     if (localPaperVersions != null && localPaperVersions.length > 0) {
-      const paper = localPaperVersions.find((paper) => paper.id === Number(newspaperID))
+      const paper = localPaperVersions.find((paper) => paper.id === newspaperID)
       if (paper !== undefined) {
         setSelectedNewsPaper(paper)
       }
@@ -71,7 +72,7 @@ function Configurator() {
         </Grid>
         <Grid item xs={12} md={8} order={{ xs: 4, md: 5 }}></Grid>
         <Grid item xs={12} md={4} order={{ xs: 6, md: 6 }}>
-          <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }} disabled={!useSelector(subscriptionValid)}>
+          <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }} disabled={!useSelector(subscriptionPriceIsSet)}>
             {t('delivery.order')}
           </Button>
         </Grid>

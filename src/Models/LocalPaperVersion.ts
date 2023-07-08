@@ -5,7 +5,7 @@ export interface LocalPaperVersion {
   /**
    * The id of the local paper version.
    */
-  id: number
+  id: string
 
   /**
    * The title of the local paper version.

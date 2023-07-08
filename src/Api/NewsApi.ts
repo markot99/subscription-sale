@@ -1,4 +1,5 @@
 import { LocalPaperVersion } from '../Models/LocalPaperVersion'
+import { DeliveryMethod, PaymentInterval, SubscriptionInterval } from '../Models/Subscription'
 import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
 import { Coordinate } from './Coordinate'
@@ -55,12 +56,27 @@ export class NewsApi {
    * @param deliveryZipCode The zip code to which the newspaper is delivered
    * @param deliveryCountry The country to which the newspaper is delivered
    * @param newspaperID The id of the newspaper to be delivered
+   * @param subscriptionInterval The subscription interval of the newspaper to be delivered
+   * @param deliveryMethod The delivery method of the newspaper to be delivered
+   * @param paymentInterval The payment interval of the newspaper
    *
    * @returns The distance between the two zip codes in kilometers.
    */
-  public static async calculateNewspaperPrice(deliveryZipCode: string, deliveryCountry: string, newspaperID: number): Promise<string> {
+  public static async calculateNewspaperPrice(
+    deliveryZipCode: string,
+    deliveryCountry: string,
+    newspaperID: string,
+    subscriptionInterval: SubscriptionInterval,
+    deliveryMethod: DeliveryMethod,
+    paymentInterval: PaymentInterval
+  ): Promise<number> {
     const log = ApiLog.context('calculateNewspaperPrice')
     const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
+
+    const newspaper = LocalPaperRawData.find((paper) => paper.id === newspaperID)
+    if (!newspaper) {
+      throw new Error(`Newspaper ID does not exist: ${newspaperID}`)
+    }
 
     const coordOfNewspaperAgency = await ZipCodeApi.fetchCoordinateForZipCode(newspaperAgencyInfo.zipCode)
 
@@ -74,13 +90,20 @@ export class NewsApi {
 
     const distance = await ZipCodeApi.calculateDistance(coordOfNewspaperAgency, coord)
 
-    console.log(newspaperID)
-    const price = (5 + distance * 0.1).toFixed()
+    let price = newspaper.basePrice + distance * 0.1
+    // increase price by 10% if payment interval is monthly
+    price = price * (paymentInterval === PaymentInterval.Monthly ? 1.1 : 1)
+
+    // increase price by 10% if delivery method is delivery man
+    price = price * (deliveryMethod === DeliveryMethod.DeliveryMan ? 1.1 : 1)
+
+    // decrease price by 70 % if subscription is only delivered on weekends
+    price = price * (subscriptionInterval === SubscriptionInterval.Weekends ? 0.3 : 1)
 
     return ApiUtils.delay(() => {
       log.begin()
       log.end()
-      return price
+      return Number(price.toFixed(2))
     })
   }
 
@@ -119,11 +142,11 @@ export class NewsApi {
         case '0':
         case '1':
         case '2':
-          return localVersions.filter((version) => version.id !== 3)
+          return localVersions.filter((version) => version.id !== '3')
         case '3':
         case '4':
         case '5':
-          return localVersions.filter((version) => version.id !== 3 && version.id !== 2)
+          return localVersions.filter((version) => version.id !== '3' && version.id !== '2')
         default:
           break
       }

@@ -10,17 +10,13 @@ function SubscriptionPreview(props: { selectedNewspaper: LocalPaperVersion }) {
   return (
     <Box>
       <Typography variant='h4'>{t('subscriptionPreview.yourSubscription')}</Typography>
-      {selectedNewspaper.title ? (
-        <Typography variant='h3'>{selectedNewspaper.title}</Typography>
-      ) : (
-        <Skeleton variant='text' animation='wave' sx={{ fontSize: '3rem' }} />
-      )}
+      <Typography variant='h3'>
+        {selectedNewspaper.title ? selectedNewspaper.title : <Skeleton variant='text' animation='wave' />}
+      </Typography>
 
-      {selectedNewspaper.description ? (
-        <Typography>{selectedNewspaper.description}</Typography>
-      ) : (
-        <Skeleton variant='text' animation='wave' />
-      )}
+      <Typography>
+        {selectedNewspaper.description ? selectedNewspaper.description : <Skeleton variant='text' animation='wave' />}
+      </Typography>
     </Box>
   )
 }

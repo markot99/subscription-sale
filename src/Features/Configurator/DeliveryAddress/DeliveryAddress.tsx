@@ -50,6 +50,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.title')}
               value={subscription.deliveryAddress.title}
+              error={!subscription.deliveryAddress.title}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -74,6 +75,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.firstName')}
               value={subscription.deliveryAddress.firstName}
+              error={!subscription.deliveryAddress.firstName}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -92,6 +94,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.lastName')}
               value={subscription.deliveryAddress.lastName}
+              error={!subscription.deliveryAddress.lastName}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -110,6 +113,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.street')}
               value={subscription.deliveryAddress.street}
+              error={!subscription.deliveryAddress.street}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -128,6 +132,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.houseNumber')}
               value={subscription.deliveryAddress.houseNumber}
+              error={!subscription.deliveryAddress.houseNumber}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -146,6 +151,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.postcode')}
               value={subscription.deliveryAddress.postalCode}
+              error={!subscription.deliveryAddress.postalCode}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -164,6 +170,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.city')}
               value={subscription.deliveryAddress.city}
+              error={!subscription.deliveryAddress.city}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -183,6 +190,7 @@ function DeliveryAddress() {
               fullWidth
               label={t('address.country')}
               value={subscription.deliveryAddress.country}
+              error={!subscription.deliveryAddress.country}
               onChange={(e) =>
                 dispatch(
                   setSubscription({

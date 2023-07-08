@@ -20,6 +20,7 @@ export interface SubscriptionState {
 const initialState: SubscriptionState = {
   subscription: {
     id: '',
+    newspaperID: '',
     userId: '',
     edition: '',
     deliveryAddress: {
@@ -58,8 +59,14 @@ const subscriptionSlice = createSlice({
   name: 'subscription',
   initialState,
   reducers: {
-    clear(state) {
+    clearSubscription(state) {
       state.subscription = initialState.subscription
+    },
+    newSubscription(state, action: { payload: string }) {
+      state.subscription = {
+        ...initialState.subscription,
+        newspaperID: action.payload
+      }
     }
   },
   extraReducers: (builder) => {
@@ -74,6 +81,7 @@ const subscriptionSlice = createSlice({
     })
     builder.addCase(setSubscription.fulfilled, (state, action) => {
       state.subscription = action.payload
+      state.subscription.price = 0
     })
   }
 })
@@ -81,7 +89,7 @@ const subscriptionSlice = createSlice({
 /**
  * The actions of the subscription slice.
  */
-export const { clear } = subscriptionSlice.actions
+export const { clearSubscription, newSubscription } = subscriptionSlice.actions
 
 /**
  * Check if the subscription is valid.
@@ -106,10 +114,10 @@ export const subscriptionIsValid = (subscription: Subscription) => {
 /**
  * Selector to check if the subscription is valid.
  */
-export const subscriptionValid = createSelector(
+export const subscriptionPriceIsSet = createSelector(
   (state: RootState) => state.subscription.subscription,
   (subscription) => {
-    return subscriptionIsValid(subscription)
+    return subscription.price > 0
   }
 )
 
@@ -126,8 +134,15 @@ export const setSubscription = createAsyncThunk('subscription/setSubscription', 
  */
 export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async (subscription: Subscription) => {
   if (subscriptionIsValid(subscription)) {
-    const price = await NewsApi.calculateNewspaperPrice(subscription.deliveryAddress.postalCode, subscription.deliveryAddress.country, 1)
-    return Number(price)
+    const price = await NewsApi.calculateNewspaperPrice(
+      subscription.deliveryAddress.postalCode,
+      subscription.deliveryAddress.country,
+      subscription.newspaperID,
+      subscription.subscriptionInterval,
+      subscription.deliveryMethod,
+      subscription.paymentInterval
+    )
+    return price
   }
   return 0
 })

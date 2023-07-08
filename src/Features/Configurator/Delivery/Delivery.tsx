@@ -84,6 +84,7 @@ function Delivery() {
               fullWidth
               label={t('delivery.edition')}
               value={subscription.edition}
+              error={!subscription.edition}
               onFocus={handleEmptyEditionClick}
               onChange={(e) =>
                 dispatch(
@@ -107,6 +108,7 @@ function Delivery() {
               fullWidth
               label={t('delivery.deliveryDays.title')}
               value={subscription.subscriptionInterval}
+              error={!subscription.subscriptionInterval}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -129,6 +131,7 @@ function Delivery() {
               fullWidth
               label={t('delivery.deliveryMethod.title')}
               value={subscription.deliveryMethod}
+              error={!subscription.deliveryMethod}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -151,6 +154,7 @@ function Delivery() {
               fullWidth
               label={t('delivery.paymentInterval.title')}
               value={subscription.paymentInterval}
+              error={!subscription.paymentInterval}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -173,6 +177,7 @@ function Delivery() {
                 value={moment(subscription.startDay, 'YYYY-MM-DD')}
                 onChange={handleDateChange}
                 shouldDisableDate={getDisabledDates}
+                minDate={moment().add(1, 'days')}
               />
             </LocalizationProvider>
           </Grid>
