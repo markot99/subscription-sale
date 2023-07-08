@@ -26,4 +26,9 @@ export interface LocalPaperVersion {
    * The image url of the local paper version.
    */
   imageUrl: string
+
+  /**
+   * The average user rating of the local paper version.
+   */
+  rating: number
 }

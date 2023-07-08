@@ -29,7 +29,7 @@ const OfferCard = (props: { paper: LocalPaperVersion }) => {
         <Typography variant='body1'>{paper.description}</Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Rating name='read-only' value={4} readOnly />
+        <Rating name='read-only' value={paper.rating} readOnly />
         {/* navigate user to configurator*/}
         <Button
           variant='outlined'

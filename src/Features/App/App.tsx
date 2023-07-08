@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from '../../Components/ProtectedRoute/ProtectedRoute'
+import AlertBox from '../AlertBox/AlertBox'
 import Checkout from '../Checkout/Checkout'
 import Footer from '../Footer/Footer'
 import Home from '../Home/Home'
@@ -9,7 +10,6 @@ import Me from '../Me/Me'
 import Register from '../Register/Register'
 import Configurator from './../Configurator/Configurator'
 import Header from './../Header/Header'
-import AlertBox from '../AlertBox/AlertBox'
 
 function App() {
   return (
@@ -31,12 +31,17 @@ function App() {
         }}
       >
         <Routes>
-          <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/configurator' element={<Configurator />} />
-          {/* <Route path='/me' element={<Me />} /> */}
-          <Route path='/checkout' element={<Checkout />} />
+          <Route
+            path='/checkout'
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='/me'
             element={
@@ -45,6 +50,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path='/' element={<Home />} />
         </Routes>
       </Box>
       <Footer />

@@ -147,6 +147,11 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
   return 0
 })
 
+export const cachedSubscription = createSelector(
+  (state: RootState) => state.subscription,
+  (state: SubscriptionState) => state.subscription
+)
+
 /**
  * The reducer of the subscription slice.
  */

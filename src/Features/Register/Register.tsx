@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -13,22 +14,25 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { Api } from '../../Api/Api'
 import { User, UserTitle } from '../../Models/User'
-import { isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
+import { authenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
+import { cachedSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 
 const Register = () => {
   const { t } = useTranslation()
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams()
   const redirectUrl = searchParams.get('redirectUrl')
 
   const authenticated = useSelector(isAuthenticated)
+  const subscription = useSelector(cachedSubscription)
 
   const [title, setTitle] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -41,6 +45,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
 
+  const [registerInProgress, setRegisterInProgress] = useState(false)
   const [registerError, setRegisterError] = useState('')
 
   useEffect(() => {
@@ -48,6 +53,16 @@ const Register = () => {
       navigate('/')
     }
   }, [authenticated])
+
+  useEffect(() => {
+    if (!subscription) {
+      return
+    }
+
+    setTitle(subscription.deliveryAddress.title)
+    setFirstName(subscription.deliveryAddress.firstName)
+    setLastName(subscription.deliveryAddress.lastName)
+  }, [subscription])
 
   const validateInput = () => {
     if (!firstName) {
@@ -102,7 +117,13 @@ const Register = () => {
     }
 
     try {
-      await Api.createUser(user)
+      const process = Api.createUser(user)
+      setRegisterInProgress(true)
+
+      await process
+      setRegisterInProgress(false)
+
+      dispatch(authenticate(user))
     } catch (error) {
       setRegisterError(t('features.register.error.failed'))
       return
@@ -110,14 +131,16 @@ const Register = () => {
 
     if (redirectUrl) {
       navigate(redirectUrl)
-    } else {
-      navigate('/login')
+      return
     }
+
+    navigate('/me')
   }
 
   function getEnumKey(enumObj: object, value: string): string | undefined {
     const keys = Object.keys(enumObj) as (keyof typeof enumObj)[]
     const matchingKey = keys.find((key) => enumObj[key] === value)
+
     return matchingKey ? enumObj[matchingKey] : undefined
   }
 
@@ -206,8 +229,8 @@ const Register = () => {
           {registerError}
         </Typography>
         <FormControlLabel control={<Checkbox />} label={t('features.register.emailUpdates')} />
-        <Button variant='contained' onClick={() => onRegister()} fullWidth>
-          {t('features.register.submit')}
+        <Button variant='contained' onClick={() => onRegister()} disabled={registerInProgress} fullWidth>
+          {registerInProgress ? <CircularProgress /> : t('features.register.submit')}
         </Button>
         <Box
           sx={{

@@ -10,7 +10,8 @@ export const LocalPaperRawData: LocalPaperVersion[] = [
     description: 'Alle wichtigen Informationen aus der Region Reutlingen. Jeden Tag neu.',
     basePrice: 4.99,
     imageUrl:
-      'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+      'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    rating: 5
   },
   {
     id: '2',
@@ -18,14 +19,16 @@ export const LocalPaperRawData: LocalPaperVersion[] = [
     description: 'Neuigkeiten aus der Region Reutlingen. Seien sie immer auf dem neusten Stand. Mit dem Reutlinger Anzeiger.',
     basePrice: 1.99,
     imageUrl:
-      'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+      'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    rating: 4
   },
   {
     id: '3',
     title: 'Wirtschaftsblatt',
     description: 'Erhalten sie alle wichtigen Informationen aus der Wirtschaft.',
     basePrice: 3.99,
-    imageUrl: 'https://images.pexels.com/photos/2990644/pexels-photo-2990644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+    imageUrl: 'https://images.pexels.com/photos/2990644/pexels-photo-2990644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    rating: 4
   },
   {
     id: '4',
@@ -33,7 +36,8 @@ export const LocalPaperRawData: LocalPaperVersion[] = [
     description: 'Seien sie immer auf dem neusten Stand der Innovationen in Reutlingen.',
     // edition: LocalPaperEdition.CityEdition,
     basePrice: 5.99,
-    imageUrl: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+    imageUrl: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    rating: 3
   },
   {
     id: '5',
@@ -41,7 +45,8 @@ export const LocalPaperRawData: LocalPaperVersion[] = [
     description: 'Neuigkeiten aus der Sportwelt in Reutlingen. Seien sie immer auf dem neusten Stand. Mit dem Sportblatt Reutlingen.',
     // edition: LocalPaperEdition.CityEdition,
     basePrice: 2.99,
-    imageUrl: 'https://images.pexels.com/photos/163444/sport-treadmill-tor-route-163444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+    imageUrl: 'https://images.pexels.com/photos/163444/sport-treadmill-tor-route-163444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    rating: 3
   }
 ]
 

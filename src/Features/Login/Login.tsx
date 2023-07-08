@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, Link, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,7 @@ const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const [loginInProgress, setLoginInProgress] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -32,7 +33,11 @@ const Login = () => {
     setError('')
 
     try {
-      const user = await Api.loginUser(username, password)
+      const process = Api.loginUser(username, password)
+      setLoginInProgress(true)
+
+      const user = await process
+      setLoginInProgress(false)
 
       dispatch(authenticate(user))
       onLogInSucceeded()
@@ -98,8 +103,8 @@ const Login = () => {
           fullWidth
         />
         <FormControlLabel control={<Checkbox />} label={t('features.login.rememberMe')} />
-        <Button variant='contained' onClick={() => onLogIn()} fullWidth>
-          {t('features.login.submit')}
+        <Button variant='contained' onClick={() => onLogIn()} disabled={loginInProgress} fullWidth>
+          {loginInProgress ? <CircularProgress /> : t('features.login.submit')}
         </Button>
         <Box
           sx={{
@@ -111,7 +116,11 @@ const Login = () => {
           }}
         >
           <Link href='/'>{t('features.login.forgotPassword')}</Link>
-          <Link href='/register'>{t('features.login.registerNow')}</Link>
+          {redirectUrl ? (
+            <Link href={`/register?redirectUrl=${redirectUrl}`}>{t('features.login.registerNow')}</Link>
+          ) : (
+            <Link href='/register'>{t('features.login.registerNow')}</Link>
+          )}
         </Box>
       </Box>
     </Box>

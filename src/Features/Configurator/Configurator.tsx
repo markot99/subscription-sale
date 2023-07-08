@@ -2,7 +2,8 @@ import { Box, Button, Grid, Skeleton } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 import { availablePaperVersions, fetchLocalPaperVersions } from '../../Store/Slices/LocalPaperVersion/LocalPaperVersionSlice'
 import { newSubscription, subscriptionPriceIsSet } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch } from '../../Store/Store'
@@ -15,6 +16,10 @@ function Configurator() {
   const { t } = useTranslation()
 
   const dispatch = useDispatch() as AppDispatch
+  const navigate = useNavigate()
+
+  const authenticated = useSelector(isAuthenticated)
+
   const [selectedNewspaper, setSelectedNewsPaper] = React.useState<LocalPaperVersion>({} as LocalPaperVersion)
   const localPaperVersions = useSelector(availablePaperVersions)
 
@@ -44,6 +49,15 @@ function Configurator() {
     }
   }, [localPaperVersions])
 
+  const onSubmit = () => {
+    if (!authenticated) {
+      navigate('/register?redirectUrl=/checkout')
+      return
+    }
+
+    navigate('/checkout')
+  }
+
   return (
     <Box>
       <Grid container spacing={4} alignItems={'stretch'}>
@@ -72,7 +86,13 @@ function Configurator() {
         </Grid>
         <Grid item xs={12} md={8} order={{ xs: 4, md: 5 }}></Grid>
         <Grid item xs={12} md={4} order={{ xs: 6, md: 6 }}>
-          <Button type='submit' variant='contained' color='primary' sx={{ float: 'right' }} disabled={!useSelector(subscriptionPriceIsSet)}>
+          <Button
+            onClick={() => onSubmit()}
+            variant='contained'
+            color='primary'
+            sx={{ float: 'right' }}
+            disabled={!useSelector(subscriptionPriceIsSet)}
+          >
             {t('delivery.order')}
           </Button>
         </Grid>

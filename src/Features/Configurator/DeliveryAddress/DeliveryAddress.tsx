@@ -1,5 +1,5 @@
 import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { CountryApi } from '../../../Api/CountryApi'
@@ -11,11 +11,12 @@ import { AppDispatch, RootState } from '../../../Store/Store'
 function DeliveryAddress() {
   const { t } = useTranslation()
   const dispatch = useDispatch() as AppDispatch
+
   const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
 
-  const [countries, setCountries] = React.useState<string[]>([])
+  const [countries, setCountries] = useState<string[]>([])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
   }
 
