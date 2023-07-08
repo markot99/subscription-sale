@@ -49,9 +49,10 @@ const Login = () => {
   const onLogInSucceeded = () => {
     if (redirectUrl) {
       navigate(redirectUrl)
-    } else {
-      navigate('/Me')
+      return
     }
+
+    navigate('/me')
   }
 
   const onLogInFailed = () => {
