@@ -241,7 +241,11 @@ const Register = () => {
             gap: 5
           }}
         >
-          <Link href='/login'>{t('features.register.logIn')}</Link>
+          {redirectUrl ? (
+            <Link href={`/login?redirectUrl=${redirectUrl}`}>{t('features.register.logIn')}</Link>
+          ) : (
+            <Link href='/login'>{t('features.register.logIn')}</Link>
+          )}
         </Box>
       </Box>
     </Box>
