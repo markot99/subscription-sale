@@ -94,6 +94,7 @@
     },
     "me": {
       "header": "My Account",
+      "subscriptions": "My Subscriptions",
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
@@ -104,7 +105,8 @@
       "zipCode": "Zip Code",
       "location": "Location",
       "country": "Country",
-      "save": "Save"
+      "save": "Save",
+      "noActiveSubscriptions": "You do not have any active subscriptions!"
     },
     "checkout": {
       "invoice": {

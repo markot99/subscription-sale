@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import ActiveSubscriptionsReducer from './Slices/ActiveSubscriptions/ActiveSubscriptionsSlice'
 import AlertReducer from './Slices/AlertSlice/AlertSlice'
 import AuthReducer from './Slices/Auth/AuthSlice'
 import LocalPaperVersionReducer from './Slices/LocalPaperVersion/LocalPaperVersionSlice'
@@ -9,7 +10,8 @@ export const store = configureStore({
     auth: AuthReducer,
     papers: LocalPaperVersionReducer,
     alert: AlertReducer,
-    subscription: SubscriptionReducer
+    subscription: SubscriptionReducer,
+    activeSubscriptions: ActiveSubscriptionsReducer
   }
 })
 

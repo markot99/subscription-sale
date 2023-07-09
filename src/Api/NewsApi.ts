@@ -55,7 +55,7 @@ export class NewsApi {
    *
    * @param deliveryZipCode The zip code to which the newspaper is delivered
    * @param deliveryCountry The country to which the newspaper is delivered
-   * @param newspaperID The id of the newspaper to be delivered
+   * @param newspaperId The id of the newspaper to be delivered
    * @param subscriptionInterval The subscription interval of the newspaper to be delivered
    * @param deliveryMethod The delivery method of the newspaper to be delivered
    * @param paymentInterval The payment interval of the newspaper
@@ -65,7 +65,7 @@ export class NewsApi {
   public static async calculateNewspaperPrice(
     deliveryZipCode: string,
     deliveryCountry: string,
-    newspaperID: string,
+    newspaperId: string,
     subscriptionInterval: SubscriptionInterval,
     deliveryMethod: DeliveryMethod,
     paymentInterval: PaymentInterval
@@ -73,9 +73,9 @@ export class NewsApi {
     const log = ApiLog.context('calculateNewspaperPrice')
     const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
 
-    const newspaper = LocalPaperRawData.find((paper) => paper.id === newspaperID)
+    const newspaper = LocalPaperRawData.find((paper) => paper.id === newspaperId)
     if (!newspaper) {
-      throw new Error(`Newspaper ID does not exist: ${newspaperID}`)
+      throw new Error(`Newspaper does not exist: ${newspaperId}`)
     }
 
     const coordOfNewspaperAgency = await ZipCodeApi.fetchCoordinateForZipCode(newspaperAgencyInfo.zipCode)

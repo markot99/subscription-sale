@@ -94,6 +94,7 @@
     },
     "me": {
       "header": "Persönliche Daten",
+      "subscriptions": "Meine Abos",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail",
@@ -104,7 +105,8 @@
       "zipCode": "Postleitzahl",
       "location": "Ort",
       "country": "Land",
-      "save": "Speichern"
+      "save": "Speichern",
+      "noActiveSubscriptions": "Sie haben keine aktiven Abos!"
     },
     "checkout": {
       "invoice": {

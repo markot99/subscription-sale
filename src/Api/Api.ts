@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Subscription } from '../Models/Subscription'
+import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../Models/Subscription'
 import { User } from '../Models/User'
 import { ApiLog } from './ApiLog'
 import { ApiUtils } from './ApiUtils'
@@ -8,7 +8,7 @@ import { ApiUtils } from './ApiUtils'
  * Represents a fake user for demonstration purposes.
  */
 const adminUser: User = {
-  id: '432423-324234',
+  id: '3f496ef7-8986-4907-b7a2-224aa2f195a7',
   title: 'Mr.',
   firstName: 'Ben',
   lastName: 'Kenobi',
@@ -23,6 +23,39 @@ const adminUser: User = {
   }
 }
 
+const adminSubscription: Subscription = {
+  id: 'b8b396ed-9d98-40c3-9049-d850cf90f60d',
+  userId: '3f496ef7-8986-4907-b7a2-224aa2f195a7',
+  newspaperID: '1',
+  edition: 'Sportausgabe',
+  deliveryAddress: {
+    title: 'dummy',
+    firstName: 'dummy',
+    lastName: 'dummy',
+    street: 'Jedi Temple',
+    houseNumber: 'One',
+    postalCode: '77777',
+    city: 'Courescant',
+    country: 'Courescant'
+  },
+  invoiceAddress: {
+    title: 'Master',
+    firstName: 'Yoda',
+    lastName: 'Yoda',
+    street: 'Jedi Temple',
+    houseNumber: 'One',
+    postalCode: '77777',
+    city: 'Courescant',
+    country: 'Courescant'
+  },
+  subscriptionInterval: SubscriptionInterval.Daily,
+  deliveryMethod: DeliveryMethod.Post,
+  paymentType: PaymentType.CreditCard,
+  paymentInterval: PaymentInterval.Monthly,
+  startDay: 'Monday',
+  price: 9.99
+}
+
 /**
  * Represents a fake API for demonstration purposes.
  */
@@ -35,7 +68,7 @@ export class Api {
   /**
    * Represents the subscription database.
    */
-  private static SubscriptionDatabase: Subscription[] = []
+  private static SubscriptionDatabase: Subscription[] = [adminSubscription]
 
   /**
    * Gets any user by its id.
