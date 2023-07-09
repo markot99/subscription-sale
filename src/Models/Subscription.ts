@@ -85,12 +85,12 @@ export interface Subscription {
   userId: string
 
   /**
-   * The id of the newspaper.
+   * The name of the newspaper.
    */
-  newspaperID: string
+  newspaper: string
 
   /**
-   * The edition of the newspaper.
+   * The edition name of the newspaper.
    */
   edition: string
 

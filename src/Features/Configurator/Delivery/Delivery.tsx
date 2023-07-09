@@ -96,7 +96,7 @@ function Delivery() {
               }
             >
               {localPaperEditions.map((edition) => (
-                <MenuItem key={edition.id} value={edition.id}>
+                <MenuItem key={edition.id} value={edition.name}>
                   {edition.name}
                 </MenuItem>
               ))}

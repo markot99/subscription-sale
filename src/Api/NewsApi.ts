@@ -73,7 +73,7 @@ export class NewsApi {
     const log = ApiLog.context('calculateNewspaperPrice')
     const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
 
-    const newspaper = LocalPaperRawData.find((paper) => paper.id === newspaperId)
+    const newspaper = LocalPaperRawData.find((paper) => paper.title === newspaperId)
     if (!newspaper) {
       throw new Error(`Newspaper does not exist: ${newspaperId}`)
     }

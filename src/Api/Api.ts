@@ -26,7 +26,7 @@ const adminUser: User = {
 const adminSubscription: Subscription = {
   id: 'b8b396ed-9d98-40c3-9049-d850cf90f60d',
   userId: '3f496ef7-8986-4907-b7a2-224aa2f195a7',
-  newspaperID: '1',
+  newspaper: 'Reutlinger Bote',
   edition: 'Sportausgabe',
   deliveryAddress: {
     title: 'dummy',

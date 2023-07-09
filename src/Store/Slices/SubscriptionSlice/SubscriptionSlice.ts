@@ -21,7 +21,7 @@ export interface SubscriptionState {
 const initialState: SubscriptionState = {
   subscription: {
     id: '',
-    newspaperID: '',
+    newspaper: '',
     userId: '',
     edition: '',
     deliveryAddress: {
@@ -66,7 +66,7 @@ const subscriptionSlice = createSlice({
     newSubscription(state, action: { payload: string }) {
       state.subscription = {
         ...initialState.subscription,
-        newspaperID: action.payload
+        newspaper: action.payload
       }
     }
   },
@@ -144,7 +144,7 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
     const price = await NewsApi.calculateNewspaperPrice(
       subscription.deliveryAddress.postalCode,
       subscription.deliveryAddress.country,
-      subscription.newspaperID,
+      subscription.newspaper,
       subscription.subscriptionInterval,
       subscription.deliveryMethod,
       subscription.paymentInterval

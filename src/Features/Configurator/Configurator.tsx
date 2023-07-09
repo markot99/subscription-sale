@@ -31,12 +31,6 @@ function Configurator() {
   const newspaperId = query.get('id')
 
   useEffect(() => {
-    if (newspaperId != null) {
-      dispatch(newSubscription(newspaperId))
-    }
-  }, [newspaperId])
-
-  useEffect(() => {
     dispatch(fetchLocalPaperVersions())
   }, [newspaperId])
 
@@ -45,6 +39,7 @@ function Configurator() {
       const paper = localPaperVersions.find((paper) => paper.id === newspaperId)
       if (paper !== undefined) {
         setSelectedNewsPaper(paper)
+        dispatch(newSubscription(paper.title))
       }
     }
   }, [localPaperVersions])

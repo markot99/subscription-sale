@@ -30,7 +30,7 @@ export default function FinalCheck() {
                 {t('subscriptionPreview.yourSubscription')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('delivery.newspaper')}:</strong> {subscription.id}
+                <strong>{t('delivery.newspaper')}:</strong> {subscription.newspaper}
               </Typography>
               <Typography variant='h6'>
                 <strong>{t('delivery.edition')}:</strong> {subscription.edition}
