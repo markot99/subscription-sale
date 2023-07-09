@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { Backdrop, Checkbox, CircularProgress, FormControlLabel, FormGroup } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Step from '@mui/material/Step'
@@ -20,6 +20,7 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0)
   const [steps, setSteps] = React.useState<string[]>([])
   const [privacyAccepted, setPrivacyAccepted] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
   const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
   const user = useSelector(authenticatedUser)
   const dispatch = useDispatch() as AppDispatch
@@ -50,9 +51,11 @@ export default function Checkout() {
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
+      setLoading(true)
       const newSubscription = { ...subscription, userId: user.id }
       console.log(newSubscription)
       await dispatch(confirmSubscription(newSubscription))
+      setLoading(false)
       navigate('/confirmation')
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -108,6 +111,9 @@ export default function Checkout() {
             {t('features.checkout.buttonNext')}
           </Button>
         )}
+        <Backdrop style={{ zIndex: 9999, color: '#fff' }} open={loading}>
+          <CircularProgress color='inherit' />
+        </Backdrop>
       </Box>
     </Box>
   )
