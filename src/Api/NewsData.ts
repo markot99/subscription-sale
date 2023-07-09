@@ -18,34 +18,31 @@ export const LocalPaperRawData: LocalPaperVersion[] = [
     title: 'Reutlinger Anzeiger',
     description: 'Neuigkeiten aus der Region Reutlingen. Seien sie immer auf dem neusten Stand. Mit dem Reutlinger Anzeiger.',
     basePrice: 1.99,
-    imageUrl:
-      'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    imageUrl: 'https://images.pexels.com/photos/3070171/pexels-photo-3070171.jpeg?auto=compress&cs=tinysrgb&w=1600',
     rating: 4
   },
   {
     id: '3',
-    title: 'Wirtschaftsblatt',
-    description: 'Erhalten sie alle wichtigen Informationen aus der Wirtschaft.',
+    title: 'Böblingen aktuell',
+    description: 'Erhalten sie alle wichtigen Informationen aus Böblingen. Frisch und tagesaktuell.',
     basePrice: 3.99,
     imageUrl: 'https://images.pexels.com/photos/2990644/pexels-photo-2990644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     rating: 4
   },
   {
     id: '4',
-    title: 'Innovationsblatt Reutlingen',
-    description: 'Seien sie immer auf dem neusten Stand der Innovationen in Reutlingen.',
-    // edition: LocalPaperEdition.CityEdition,
+    title: 'Reutlingen aktuell',
+    description: 'Immer auf dem neusten Stand mit Reutlingen aktuell. Druckfrisch jeden Tag in ihrem Briefkasten.',
     basePrice: 5.99,
-    imageUrl: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    imageUrl: 'https://images.pexels.com/photos/280221/pexels-photo-280221.jpeg?auto=compress&cs=tinysrgb&w=1600',
     rating: 3
   },
   {
     id: '5',
-    title: 'Sportblatt Reutlingen',
-    description: 'Neuigkeiten aus der Sportwelt in Reutlingen. Seien sie immer auf dem neusten Stand. Mit dem Sportblatt Reutlingen.',
-    // edition: LocalPaperEdition.CityEdition,
+    title: 'Böblinger News',
+    description: 'Tagesaktuelle Informationen aus Böblingen. Jeden Tag neu bis an ihre Haustür geliefert.',
     basePrice: 2.99,
-    imageUrl: 'https://images.pexels.com/photos/163444/sport-treadmill-tor-route-163444.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    imageUrl: 'https://images.pexels.com/photos/936137/pexels-photo-936137.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     rating: 3
   }
 ]
