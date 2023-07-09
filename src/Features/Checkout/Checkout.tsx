@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Subscription } from '../../Models/Subscription'
+import { authenticatedUser } from '../../Store/Slices/Auth/AuthSlice'
 import { confirmSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch, RootState } from '../../Store/Store'
 import FinalCheck from './FinalCheck/FinalCheck'
@@ -20,6 +21,7 @@ export default function Checkout() {
   const [steps, setSteps] = React.useState<string[]>([])
   const [privacyAccepted, setPrivacyAccepted] = React.useState(false)
   const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
+  const user = useSelector(authenticatedUser)
   const dispatch = useDispatch() as AppDispatch
   const navigate = useNavigate()
 
@@ -48,7 +50,9 @@ export default function Checkout() {
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
-      await dispatch(confirmSubscription(subscription))
+      const newSubscription = { ...subscription, userId: user.id }
+      console.log(newSubscription)
+      await dispatch(confirmSubscription(newSubscription))
       navigate('/confirmation')
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
