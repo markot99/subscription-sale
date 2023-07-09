@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import moment from 'moment'
-import { NewsApi } from '../../../Api/NewsApi'
-import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
-import { RootState } from '../../Store'
 import { Api } from '../../../Api/Api'
+import { NewsApi } from '../../../Api/NewsApi'
+import { AlertSeverity } from '../../../Models/Alert'
+import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
+import i18n from '../../../i18n'
+import { RootState } from '../../Store'
+import { setAlert } from '../AlertSlice/AlertSlice'
 
 /**
  * The state of the newly configured subscription.
@@ -71,9 +74,6 @@ const subscriptionSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(refreshPrice.rejected, (state, action) => {
-      console.log(action.error.message)
-    })
     builder.addCase(refreshPrice.fulfilled, (state, action) => {
       state.subscription.price = action.payload
     })
@@ -139,17 +139,26 @@ export const setSubscription = createAsyncThunk('subscription/setSubscription', 
 /**
  * Fetches all local paper versions from the server.
  */
-export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async (subscription: Subscription) => {
+export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async (subscription: Subscription, { dispatch }) => {
   if (subscriptionIsValid(subscription)) {
-    const price = await NewsApi.calculateNewspaperPrice(
-      subscription.deliveryAddress.postalCode,
-      subscription.deliveryAddress.country,
-      subscription.newspaper,
-      subscription.subscriptionInterval,
-      subscription.deliveryMethod,
-      subscription.paymentInterval
-    )
-    return price
+    try {
+      const price = await NewsApi.calculateNewspaperPrice(
+        subscription.deliveryAddress.postalCode,
+        subscription.deliveryAddress.country,
+        subscription.newspaper,
+        subscription.subscriptionInterval,
+        subscription.deliveryMethod,
+        subscription.paymentInterval
+      )
+      return price
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes('Zip code does not exist')) {
+          await dispatch(setAlert({ message: i18n.t('delivery.errors.unknownZip'), severity: AlertSeverity.Error, timeout: 5 }))
+        }
+        throw error
+      }
+    }
   }
   return 0
 })

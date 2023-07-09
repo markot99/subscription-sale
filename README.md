@@ -1,5 +1,6 @@
 # Subscription-Sale
 
+## Installation
 Before starting, all necessary dependencies must be installed with the following command:
 
 ```console
@@ -14,4 +15,3 @@ npm start
 Now the frontend should be reachable under the following address
 
 [http://localhost:3000](http://localhost:3000)
-

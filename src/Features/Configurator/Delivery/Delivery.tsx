@@ -43,6 +43,7 @@ function Delivery() {
   }
 
   const refreshLocalEditions = async () => {
+    if (!subscription.deliveryAddress.postalCode) return
     try {
       const localEditions = await NewsApi.fetchLocalPaperVersionsForZipCode(subscription.deliveryAddress.postalCode)
       setLocalPaperEditions(localEditions)
