@@ -28,21 +28,21 @@ function Configurator() {
     return React.useMemo(() => new URLSearchParams(search), [search])
   }
   const query = useQuery()
-  const newspaperID = query.get('id')
+  const newspaperId = query.get('id')
 
   useEffect(() => {
-    if (newspaperID != null) {
-      dispatch(newSubscription(newspaperID))
+    if (newspaperId != null) {
+      dispatch(newSubscription(newspaperId))
     }
-  }, [newspaperID])
+  }, [newspaperId])
 
   useEffect(() => {
     dispatch(fetchLocalPaperVersions())
-  }, [newspaperID])
+  }, [newspaperId])
 
   useEffect(() => {
     if (localPaperVersions != null && localPaperVersions.length > 0) {
-      const paper = localPaperVersions.find((paper) => paper.id === newspaperID)
+      const paper = localPaperVersions.find((paper) => paper.id === newspaperId)
       if (paper !== undefined) {
         setSelectedNewsPaper(paper)
       }

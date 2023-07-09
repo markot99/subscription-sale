@@ -18,7 +18,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { Api } from '../../Api/Api'
+import { AlertSeverity } from '../../Models/Alert'
 import { User, UserTitle } from '../../Models/User'
+import { setAlert } from '../../Store/Slices/AlertSlice/AlertSlice'
 import { authenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 import { cachedSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 
@@ -49,6 +51,10 @@ const Register = () => {
   const [registerError, setRegisterError] = useState('')
 
   useEffect(() => {
+    if (redirectUrl) {
+      return
+    }
+
     if (authenticated) {
       navigate('/')
     }
@@ -126,6 +132,15 @@ const Register = () => {
       dispatch(authenticate(user))
     } catch (error) {
       setRegisterError(t('features.register.error.failed'))
+      setRegisterInProgress(false)
+
+      dispatch(
+        setAlert({
+          message: 'Test',
+          severity: AlertSeverity.Error,
+          timeout: 5
+        })
+      )
       return
     }
 

@@ -21,16 +21,20 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const [loginInProgress, setLoginInProgress] = useState(false)
-  const [error, setError] = useState('')
+  const [loginError, setLoginError] = useState('')
 
   useEffect(() => {
+    if (redirectUrl) {
+      return
+    }
+
     if (authenticated) {
       navigate('/me')
     }
   }, [authenticated])
 
   const onLogIn = async () => {
-    setError('')
+    setLoginError('')
 
     try {
       const process = Api.loginUser(username, password)
@@ -56,10 +60,12 @@ const Login = () => {
   }
 
   const onLogInFailed = () => {
+    setLoginInProgress(false)
+
     setUsername('')
     setPassword('')
 
-    setError(t('features.login.invalidCredentials'))
+    setLoginError(t('features.login.invalidCredentials'))
   }
 
   return (
@@ -90,7 +96,6 @@ const Login = () => {
           value={username}
           autoComplete='username'
           onChange={(e) => setUsername(e.target.value)}
-          helperText={error}
           fullWidth
         />
         <TextField
@@ -100,9 +105,11 @@ const Login = () => {
           autoComplete='current-password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          helperText={error}
           fullWidth
         />
+        <Typography variant='body1' color='error'>
+          {loginError}
+        </Typography>
         <FormControlLabel control={<Checkbox />} label={t('features.login.rememberMe')} />
         <Button variant='contained' onClick={() => onLogIn()} disabled={loginInProgress} fullWidth>
           {loginInProgress ? <CircularProgress /> : t('features.login.submit')}
