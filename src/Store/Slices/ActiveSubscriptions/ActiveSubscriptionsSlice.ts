@@ -16,9 +16,15 @@ const initialState = {
 const activeSubscriptionsSlice = createSlice({
   name: 'activeSubscriptions',
   initialState,
-  reducers: {},
+  reducers: {
+    clearActiveSubscriptions(state) {
+      state.subscriptions = []
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchActiveSubscriptions.fulfilled, (state, action) => {
+      state.subscriptions = []
+
       for (const subscription of action.payload) {
         const exists = state.subscriptions.find((s) => s.id === subscription.id)
 
@@ -31,6 +37,8 @@ const activeSubscriptionsSlice = createSlice({
     })
   }
 })
+
+export const { clearActiveSubscriptions } = activeSubscriptionsSlice.actions
 
 export const fetchActiveSubscriptions = createAsyncThunk('activeSubscriptions/fetchActiveSubscriptions', async (user: User) => {
   return await Api.readSubscriptionsByUserId(user.id)

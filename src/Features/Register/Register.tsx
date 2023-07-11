@@ -5,6 +5,7 @@ import {
   CircularProgress,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
   Link,
   MenuItem,
@@ -40,6 +41,7 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [titleError, setTitleError] = useState('')
   const [firstNameError, setFirstNameError] = useState('')
   const [lastNameError, setLastNameError] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -54,7 +56,7 @@ const Register = () => {
     }
 
     if (authenticated) {
-      navigate('/')
+      navigate('/me')
     }
   }, [authenticated])
 
@@ -69,6 +71,11 @@ const Register = () => {
   }, [subscription])
 
   const validateInput = () => {
+    if (!title) {
+      setTitleError(t('features.register.invalid.title'))
+      return false
+    }
+
     if (!firstName) {
       setFirstNameError(t('features.register.invalid.firstName'))
       return false
@@ -109,6 +116,8 @@ const Register = () => {
 
   const onRegister = async () => {
     setRegisterError('')
+
+    setTitleError('')
     setFirstNameError('')
     setLastNameError('')
     setEmailError('')
@@ -196,6 +205,7 @@ const Register = () => {
               </MenuItem>
             ))}
           </Select>
+          <FormHelperText>{titleError}</FormHelperText>
         </FormControl>
         <Box
           sx={{

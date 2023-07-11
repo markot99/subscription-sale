@@ -9,7 +9,7 @@ import { ApiUtils } from './ApiUtils'
  */
 const adminUser: User = {
   id: '3f496ef7-8986-4907-b7a2-224aa2f195a7',
-  title: 'Mr.',
+  title: 'mr',
   firstName: 'Ben',
   lastName: 'Kenobi',
   email: 'ben.kenobi@hello.there',
