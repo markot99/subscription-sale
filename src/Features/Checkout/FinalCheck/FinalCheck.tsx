@@ -57,7 +57,8 @@ export default function FinalCheck() {
                 {t('delivery.address')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.title')}:</strong> {t('title.' + subscription.deliveryAddress.title)}
+                <strong>{t('address.title')}:</strong>{' '}
+                {subscription.deliveryAddress.title ? t('title.' + subscription.deliveryAddress.title) : ''}
               </Typography>
               <Typography variant='h6'>
                 <strong>{t('address.firstName')}:</strong> {subscription.deliveryAddress.firstName}
@@ -93,7 +94,8 @@ export default function FinalCheck() {
                 {t('features.checkout.invoice.title')}
               </Typography>
               <Typography variant='h6'>
-                <strong>{t('address.title')}:</strong> {t('title.' + subscription.invoiceAddress.title)}
+                <strong>{t('address.title')}:</strong>{' '}
+                {subscription.deliveryAddress.title ? t('title.' + subscription.invoiceAddress.title) : ''}
               </Typography>
               <Typography variant='h6'>
                 <strong>{t('address.firstName')}:</strong> {subscription.invoiceAddress.firstName}
