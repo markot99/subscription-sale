@@ -44,7 +44,7 @@ function App() {
             }
           />
           <Route
-            path='/confirmation'
+            path='/confirmation/:orderID'
             element={
               //<ProtectedRoute>
               <Confirmation />

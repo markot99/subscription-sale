@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 import { availablePaperVersions, fetchLocalPaperVersions } from '../../Store/Slices/LocalPaperVersion/LocalPaperVersionSlice'
-import { newSubscription, subscriptionPriceIsSet } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
+import { configuratorValid, newSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch } from '../../Store/Store'
 import { LocalPaperVersion } from './../../Models/LocalPaperVersion'
 import Delivery from './Delivery/Delivery'
@@ -86,7 +86,7 @@ function Configurator() {
             variant='contained'
             color='primary'
             sx={{ float: 'right' }}
-            disabled={!useSelector(subscriptionPriceIsSet)}
+            disabled={!useSelector(configuratorValid)}
           >
             {t('delivery.order')}
           </Button>

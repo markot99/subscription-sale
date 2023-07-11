@@ -1,15 +1,12 @@
 import { Button, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Subscription } from '../../Models/Subscription'
-import { RootState } from '../../Store/Store'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function Confirmation() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
+  const { orderID } = useParams()
 
   const goToPersonalArea = () => {
     navigate('/me')
@@ -26,7 +23,7 @@ export default function Confirmation() {
       </Typography>
       <br />
       <Typography variant='h5' textAlign={'center'}>
-        {t('features.confirmation.orderNumber') + ' ' + subscription.id}
+        {t('features.confirmation.orderNumber') + ' ' + orderID}
       </Typography>
 
       <br />

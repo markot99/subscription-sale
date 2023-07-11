@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import moment from 'moment'
-import { Api } from '../../../Api/Api'
 import { NewsApi } from '../../../Api/NewsApi'
 import { AlertSeverity } from '../../../Models/Alert'
 import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
@@ -86,12 +85,6 @@ const subscriptionSlice = createSlice({
     builder.addCase(setSubscription.fulfilled, (state, action) => {
       state.subscription = action.payload
     })
-    builder.addCase(confirmSubscription.rejected, (state, action) => {
-      console.log(action.error.message)
-    })
-    builder.addCase(confirmSubscription.fulfilled, (state, action) => {
-      state.subscription = action.payload
-    })
   }
 })
 
@@ -138,10 +131,18 @@ export const invoiceAddressSet = (subscription: Subscription) => {
 /**
  * Selector to check if the subscription is valid.
  */
-export const subscriptionPriceIsSet = createSelector(
+export const configuratorValid = createSelector(
   (state: RootState) => state.subscription.subscription,
   (subscription) => {
-    return subscription.price > 0
+    if (subscription.price <= 0) return false
+    if (!subscriptionIsValid(subscription)) return false
+
+    const startDay = moment(subscription.startDay, 'YYYY-MM-DD')
+    if (subscription.subscriptionInterval == SubscriptionInterval.Weekends) {
+      return startDay.isoWeekday() === 6 || startDay.isoWeekday() === 7
+    } else if (subscription.subscriptionInterval == SubscriptionInterval.Daily) {
+      return startDay.isoWeekday() >= 1 && startDay.isoWeekday() <= 7
+    }
   }
 )
 
@@ -221,14 +222,6 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
     }
   }
   return subscription
-})
-
-/**
- * Confirm new subscription
- */
-export const confirmSubscription = createAsyncThunk('subscription/confirmSubscription', async (subscription: Subscription) => {
-  const createdSubscription = await Api.createSubscription(subscription)
-  return createdSubscription
 })
 
 export const cachedSubscription = createSelector(

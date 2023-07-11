@@ -8,9 +8,10 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Api } from '../../Api/Api'
 import { Subscription } from '../../Models/Subscription'
 import { authenticatedUser } from '../../Store/Slices/Auth/AuthSlice'
-import { confirmSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
+import { clearSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch, RootState } from '../../Store/Store'
 import FinalCheck from './FinalCheck/FinalCheck'
 import InvoiceAddress from './InvoiceAddress/InvoiceAddress'
@@ -53,10 +54,11 @@ export default function Checkout() {
     if (activeStep === steps.length - 1) {
       setLoading(true)
       const newSubscription = { ...subscription, userId: user.id }
-      console.log(newSubscription)
-      await dispatch(confirmSubscription(newSubscription))
+      const createdSubscription = await Api.createSubscription(newSubscription)
+      await dispatch(clearSubscription())
       setLoading(false)
-      navigate('/confirmation')
+
+      navigate('/confirmation/' + createdSubscription.id)
     }
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
