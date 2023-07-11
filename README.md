@@ -27,3 +27,4 @@ Now the frontend should be reachable under the following address
 - On the personal page the user can view all subscriptions and change the data.
 - The site is designed responsively.
 - Access to certain pages, e.g. the personal data is blocked without login.
+- The api was rewritten and adapted to Typescript. Load times are dynamically adjustable in ApiUtils.ts.
