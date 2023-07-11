@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Api } from '../../Api/Api'
 import { Subscription } from '../../Models/Subscription'
-import { authenticatedUser } from '../../Store/Slices/Auth/AuthSlice'
+import { authenticate, authenticatedUser } from '../../Store/Slices/Auth/AuthSlice'
 import { clearSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 import { AppDispatch, RootState } from '../../Store/Store'
 import FinalCheck from './FinalCheck/FinalCheck'
@@ -56,6 +56,13 @@ export default function Checkout() {
       const newSubscription = { ...subscription, userId: user.id }
       const createdSubscription = await Api.createSubscription(newSubscription)
       await dispatch(clearSubscription())
+
+      const userClone = { ...user }
+      userClone.invoiceAddress = newSubscription.invoiceAddress
+
+      const updatedUser = await Api.updateUser(userClone)
+      dispatch(authenticate(updatedUser))
+
       setLoading(false)
 
       navigate('/confirmation/' + createdSubscription.id)
