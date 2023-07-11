@@ -68,7 +68,7 @@ function InvoiceAddress() {
       <br />
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox checked={sameAsDelivery} onChange={handleInvoiceAddressSameAsDeliveryChange} defaultChecked />}
+          control={<Checkbox checked={sameAsDelivery} onChange={handleInvoiceAddressSameAsDeliveryChange} />}
           label={t('features.checkout.invoice.sameAsDelivery')}
         />
       </FormGroup>
@@ -81,6 +81,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.title')}
               value={subscription.invoiceAddress.title}
+              error={!subscription.invoiceAddress.title}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -106,6 +107,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.firstName')}
               value={subscription.invoiceAddress.firstName}
+              error={!subscription.invoiceAddress.firstName}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -125,6 +127,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.lastName')}
               value={subscription.invoiceAddress.lastName}
+              error={!subscription.invoiceAddress.lastName}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -144,6 +147,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.street')}
               value={subscription.invoiceAddress.street}
+              error={!subscription.invoiceAddress.street}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -163,6 +167,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.houseNumber')}
               value={subscription.invoiceAddress.houseNumber}
+              error={!subscription.invoiceAddress.houseNumber}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -182,6 +187,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.postcode')}
               value={subscription.invoiceAddress.postalCode}
+              error={!subscription.invoiceAddress.postalCode}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -201,6 +207,7 @@ function InvoiceAddress() {
               fullWidth
               label={t('address.city')}
               value={subscription.invoiceAddress.city}
+              error={!subscription.invoiceAddress.city}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
@@ -220,7 +227,8 @@ function InvoiceAddress() {
               select
               fullWidth
               label={t('address.country')}
-              value={subscription.invoiceAddress.country}
+              value={countries.length != 0 ? subscription.invoiceAddress.country : ''}
+              error={!subscription.invoiceAddress.country}
               onChange={(e) =>
                 dispatch(
                   setSubscription({

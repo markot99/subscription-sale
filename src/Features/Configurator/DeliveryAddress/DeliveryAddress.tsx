@@ -190,7 +190,7 @@ function DeliveryAddress() {
               select
               fullWidth
               label={t('address.country')}
-              value={subscription.deliveryAddress.country}
+              value={countries.length != 0 ? subscription.deliveryAddress.country : ''}
               error={!subscription.deliveryAddress.country}
               onChange={(e) =>
                 dispatch(
