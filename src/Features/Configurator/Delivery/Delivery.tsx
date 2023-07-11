@@ -56,7 +56,6 @@ function Delivery() {
   }
 
   useEffect(() => {
-    console.log('plz changed')
     refreshLocalEditions()
   }, [subscription.deliveryAddress.postalCode])
 

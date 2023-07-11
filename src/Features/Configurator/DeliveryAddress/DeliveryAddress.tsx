@@ -15,6 +15,7 @@ function DeliveryAddress() {
   const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
 
   const [countries, setCountries] = useState<string[]>([])
+  const [postalCode, setPostalCode] = useState<string>(subscription.deliveryAddress.postalCode)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,6 +33,10 @@ function DeliveryAddress() {
   useEffect(() => {
     fetchAvailableCountries()
   }, [])
+
+  useEffect(() => {
+    setPostalCode(subscription.deliveryAddress.postalCode)
+  }, [subscription.deliveryAddress.postalCode])
 
   function getEnumKey(enumObj: object, value: string): string | undefined {
     const keys = Object.keys(enumObj) as (keyof typeof enumObj)[]
@@ -151,9 +156,10 @@ function DeliveryAddress() {
             <TextField
               fullWidth
               label={t('address.postcode')}
-              value={subscription.deliveryAddress.postalCode}
-              error={!subscription.deliveryAddress.postalCode}
-              onChange={(e) =>
+              value={postalCode}
+              error={!postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              onBlur={(e) =>
                 dispatch(
                   setSubscription({
                     ...subscription,

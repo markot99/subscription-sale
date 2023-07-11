@@ -5,7 +5,7 @@ import { AlertSeverity } from '../../../Models/Alert'
 import { DeliveryMethod, PaymentInterval, PaymentType, Subscription, SubscriptionInterval } from '../../../Models/Subscription'
 import i18n from '../../../i18n'
 import { RootState } from '../../Store'
-import { setAlert } from '../AlertSlice/AlertSlice'
+import { clearAlert, setAlert } from '../AlertSlice/AlertSlice'
 
 /**
  * The state of the newly configured subscription.
@@ -197,7 +197,7 @@ export const setSubscription = createAsyncThunk(
 /**
  * Fetches all local paper versions from the server.
  */
-export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async (subscription: Subscription, { dispatch }) => {
+export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async (subscription: Subscription, { dispatch, getState }) => {
   if (subscriptionIsValid(subscription) && !invoiceAddressSet(subscription)) {
     try {
       const price = await NewsApi.calculateNewspaperPrice(
@@ -208,10 +208,22 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
         subscription.deliveryMethod,
         subscription.paymentInterval
       )
+      dispatch(clearAlert())
       return price
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('Zip code does not exist')) {
+          const state = getState() as RootState
+
+          dispatch(
+            setSubscription({
+              ...state.subscription.subscription,
+              deliveryAddress: {
+                ...state.subscription.subscription.deliveryAddress,
+                postalCode: ''
+              }
+            })
+          )
           await dispatch(setAlert({ message: i18n.t('delivery.errors.unknownZip'), severity: AlertSeverity.Error, timeout: 5 }))
         }
         throw error
