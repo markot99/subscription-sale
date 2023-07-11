@@ -12,6 +12,7 @@ import * as React from 'react'
 import { Translation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { clearActiveSubscriptions } from '../../Store/Slices/ActiveSubscriptions/ActiveSubscriptionsSlice'
 import { authenticatedUser, deauthenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 
 function Header() {
@@ -27,6 +28,7 @@ function Header() {
   const handleLogout = () => {
     setAnchorEl(null)
     dispatch(deauthenticate())
+    dispatch(clearActiveSubscriptions())
     navigate('/')
   }
 

@@ -84,6 +84,7 @@
       "submit": "Registrieren",
       "logIn": "Bereits registriert? Jetzt anmelden!",
       "invalid": {
+        "title": "Titel ist erforderlich!",
         "firstName": "Vorname ist erforderlich!",
         "lastName": "Nachname ist erforderlich!",
         "email": "E-Mail ist erforderlich!",
@@ -108,13 +109,13 @@
       "location": "Ort",
       "country": "Land",
       "save": "Speichern",
-      "noActiveSubscriptions": "Sie haben keine aktiven Abos!",
       "subscriptions": {
         "header": "Meine Abos",
         "interval": "Ausgabe",
         "daily": "Täglich",
         "weekly": "Wöchentlich",
-        "currencyPerMonth": "€ / Monat"
+        "currencyPerMonth": "€ / Monat",
+        "noActiveSubscriptions": "Sie haben keine aktiven Abos!"
       }
     },
     "checkout": {
