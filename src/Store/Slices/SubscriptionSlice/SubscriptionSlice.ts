@@ -182,7 +182,7 @@ export const setSubscription = createAsyncThunk(
   async (subscription: Subscription, { dispatch, getState }) => {
     const state = getState() as RootState
     // check if attributes that affect the price have changed
-    if (pricingInfoChanged(state.subscription.subscription, subscription) && pricingInfoValid(subscription)) {
+    if ((pricingInfoChanged(state.subscription.subscription, subscription) && pricingInfoValid(subscription)) || subscription.price <= 0) {
       dispatch(refreshPrice(subscription))
       return {
         ...subscription,

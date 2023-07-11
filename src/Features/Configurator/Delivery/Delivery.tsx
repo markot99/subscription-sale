@@ -19,6 +19,7 @@ function Delivery() {
   const { t } = useTranslation()
   const dispatch = useDispatch() as AppDispatch
 
+  const [loadingEditions, setLoadingEditions] = React.useState(false)
   const subscription = useSelector<RootState, Subscription>((state) => state.subscription.subscription)
   const [localPaperEditions, setLocalPaperEditions] = React.useState<LocalEdition[]>([])
 
@@ -45,8 +46,10 @@ function Delivery() {
   const refreshLocalEditions = async () => {
     if (!subscription.deliveryAddress.postalCode) return
     try {
+      setLoadingEditions(true)
       const localEditions = await NewsApi.fetchLocalPaperVersionsForZipCode(subscription.deliveryAddress.postalCode)
       setLocalPaperEditions(localEditions)
+      setLoadingEditions(false)
     } catch (error) {
       console.log('Failed to refresh local editions')
     }
@@ -87,6 +90,7 @@ function Delivery() {
               value={subscription.edition}
               error={!subscription.edition}
               onFocus={handleEmptyEditionClick}
+              disabled={loadingEditions}
               onChange={(e) =>
                 dispatch(
                   setSubscription({
