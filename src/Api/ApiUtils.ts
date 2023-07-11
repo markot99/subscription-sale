@@ -28,9 +28,9 @@ export class ApiUtils {
     const delay = ApiUtils.random(ApiDefaults.defaultMinDelay, ApiDefaults.defaultMaxDelay)
 
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      setTimeout(async () => {
         try {
-          resolve(action())
+          resolve(await action())
         } catch (error) {
           reject(error)
         }

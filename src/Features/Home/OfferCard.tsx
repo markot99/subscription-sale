@@ -29,7 +29,7 @@ const OfferCard = (props: { paper: LocalPaperVersion }) => {
           {paper.title}
         </Typography>
         <Typography variant='subtitle1' color='text.secondary' component='div'>
-          {paper.basePrice.toFixed(2)} € / Monat
+          {paper.basePrice.toFixed(2)} {t('features.home.card.currencyPerMonth')}
         </Typography>
         <Typography variant='body1'>{paper.description}</Typography>
       </CardContent>

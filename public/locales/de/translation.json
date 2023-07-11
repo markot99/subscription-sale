@@ -53,7 +53,8 @@
     "home": {
       "header": "Unsere Angebote",
       "card": {
-        "buy": "Kaufen"
+        "buy": "Kaufen",
+        "currencyPerMonth": "€ / Monat"
       }
     },
     "login": {
@@ -112,7 +113,8 @@
         "header": "Meine Abos",
         "interval": "Ausgabe",
         "daily": "Täglich",
-        "weekly": "Wöchentlich"
+        "weekly": "Wöchentlich",
+        "currencyPerMonth": "€ / Monat"
       }
     },
     "checkout": {

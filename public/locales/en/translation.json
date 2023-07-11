@@ -53,7 +53,8 @@
     "home": {
       "header": "Available Subscriptions",
       "card": {
-        "buy": "Buy"
+        "buy": "Buy",
+        "currencyPerMonth": "€ / Monat"
       }
     },
     "login": {
@@ -112,7 +113,8 @@
         "header": "My Subscriptions",
         "interval": "Interval",
         "daily": "Daily",
-        "weekly": "Weekly"
+        "weekly": "Weekly",
+        "currencyPerMonth": "€ / Monat"
       }
     },
     "checkout": {

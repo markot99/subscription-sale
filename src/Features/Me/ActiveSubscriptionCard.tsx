@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { PaymentInterval, Subscription, SubscriptionInterval } from '../../Models/Subscription'
+import { Subscription, SubscriptionInterval } from '../../Models/Subscription'
 
 const ActiveSubscriptionCard = (props: { subscription: Subscription }) => {
   const { subscription } = props
@@ -29,7 +29,7 @@ const ActiveSubscriptionCard = (props: { subscription: Subscription }) => {
           {subscription.edition}
         </Typography>
         <Typography variant='subtitle2' color='text.secondary' component='div'>
-          {subscription.price.toFixed(2)} {subscription.paymentInterval === PaymentInterval.Monthly ? '€ / Monat' : '€ / Jahr'}
+          {subscription.price.toFixed(2)} {t('features.me.subscriptions.currencyPerMonth')}
         </Typography>
         <Typography variant='body1'>
           {t('features.me.subscriptions.interval')}

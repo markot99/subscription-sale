@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from '@mui/material'
+import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,7 +23,11 @@ const Profile = () => {
   const [postalCode, setPostalcode] = useState(user.invoiceAddress.postalCode ?? '')
   const [country, setCountry] = useState(user.invoiceAddress.country ?? '')
 
+  const [isSaving, setIsSaving] = useState(false)
+
   const onSaveProfile = async () => {
+    setIsSaving(true)
+
     const userClone = { ...user }
     const addressClone = { ...userClone.invoiceAddress }
 
@@ -42,6 +46,7 @@ const Profile = () => {
 
     dispatch(authenticate(userClone))
     await Api.updateUser(userClone)
+    setIsSaving(false)
   }
 
   return (
@@ -179,8 +184,8 @@ const Profile = () => {
           width: 1
         }}
       >
-        <Button variant='contained' onClick={() => onSaveProfile()}>
-          {t('features.me.save')}
+        <Button variant='contained' onClick={() => onSaveProfile()} disabled={isSaving}>
+          {isSaving ? <CircularProgress /> : t('features.me.save')}
         </Button>
       </Box>
     </Box>
