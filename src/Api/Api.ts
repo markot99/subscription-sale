@@ -27,7 +27,7 @@ const adminSubscription: Subscription = {
   id: 'b8b396ed-9d98-40c3-9049-d850cf90f60d',
   userId: '3f496ef7-8986-4907-b7a2-224aa2f195a7',
   newspaper: 'Reutlinger Bote',
-  edition: 'Sportausgabe',
+  edition: 'Stadtausgabe',
   deliveryAddress: {
     title: 'dummy',
     firstName: 'dummy',
@@ -167,20 +167,19 @@ export class Api {
   /**
    * Tries to login any user with the given credentials.
    *
-   * @param username The username of the user.
+   * @param email The email of the user.
    * @param password The password of the user.
    *
    * @returns The user, or an error if the credentials are invalid.
    */
-  public static async loginUser(username: string, password: string): Promise<User> {
+  public static async loginUser(email: string, password: string): Promise<User> {
     const log = ApiLog.context('loginUser')
 
     return ApiUtils.delay(() => {
       log.begin()
 
       const index = Api.UserDatabase.findIndex((user) => {
-        const completeName = user.firstName + ' ' + user.lastName
-        return completeName === username && user.password === password
+        return user.email === email && user.password === password
       })
 
       if (index === -1) {
@@ -230,10 +229,9 @@ export class Api {
 
       // copy subscription with uuid
       const copySubscription = { ...subscription, id: uuidv4() }
-
       Api.SubscriptionDatabase.push(copySubscription)
-      log.end()
 
+      log.end()
       return copySubscription
     })
   }
@@ -277,11 +275,12 @@ export class Api {
       const index = Api.SubscriptionDatabase.findIndex((subscription) => subscription.id === id)
 
       if (index === -1) {
+        log.error()
         throw new Error('Subscription does not exist')
       }
 
       Api.SubscriptionDatabase.splice(index, 1)
-      log.error()
+      log.end()
     })
   }
 
@@ -298,8 +297,8 @@ export class Api {
     return ApiUtils.delay(() => {
       log.begin()
       const subscriptions = Api.SubscriptionDatabase.filter((subscription) => subscription.userId === userId)
-      log.end()
 
+      log.end()
       return subscriptions
     })
   }

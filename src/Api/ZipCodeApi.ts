@@ -33,7 +33,7 @@ export class ZipCodeApi {
   public static async calculateZipCodeDistance(zipCode1: string, zipCode2: string): Promise<number> {
     const log = ApiLog.context('calculateZipCodeDistance')
 
-    return ApiUtils.delay(() => {
+    return ApiUtils.delay(async () => {
       log.begin()
 
       const datagram1 = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode1)
@@ -60,7 +60,7 @@ export class ZipCodeApi {
       }
 
       log.end()
-      return ZipCodeApi.calculateDistance(coord1, coord2)
+      return await ZipCodeApi.calculateDistance(coord1, coord2)
     })
   }
 
@@ -75,18 +75,24 @@ export class ZipCodeApi {
   public static async fetchCoordinateForZipCode(zipCode: string): Promise<Coordinate> {
     const log = ApiLog.context('calculateZipCodeDistance')
 
-    const datagram = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode)
+    return ApiUtils.delay(() => {
+      log.begin()
 
-    if (!datagram) {
-      log.error()
-      throw new Error(`Zip code does not exist: ${zipCode}`)
-    }
+      const datagram = ZipCodeRawData.find((zipCodeDatagram) => zipCodeDatagram.zipCode === zipCode)
 
-    const coord = {
-      latitude: datagram.latitude,
-      longitude: datagram.longitude
-    }
-    return coord
+      if (!datagram) {
+        log.error()
+        throw new Error(`Zip code does not exist: ${zipCode}`)
+      }
+
+      const coord = {
+        latitude: datagram.latitude,
+        longitude: datagram.longitude
+      }
+
+      log.end()
+      return coord
+    })
   }
 
   /**
@@ -97,23 +103,30 @@ export class ZipCodeApi {
    *
    * @returns The distance in kilometers between the two coordinates.
    */
-  public static calculateDistance(coord1: Coordinate, coord2: Coordinate): number {
-    const earthRadius = 6371
+  public static async calculateDistance(coord1: Coordinate, coord2: Coordinate): Promise<number> {
+    const log = ApiLog.context('calculateDistance')
 
-    const latitudeDelta = ZipCodeApi.degreesFromRadians(coord2.latitude - coord1.latitude)
-    const longitudeDelta = ZipCodeApi.degreesFromRadians(coord2.longitude - coord1.longitude)
+    return ApiUtils.delay(() => {
+      log.begin()
 
-    const a =
-      Math.sin(latitudeDelta / 2) * Math.sin(latitudeDelta / 2) +
-      Math.cos(ZipCodeApi.degreesFromRadians(coord1.latitude)) *
-        Math.cos(ZipCodeApi.degreesFromRadians(coord2.latitude)) *
-        Math.sin(longitudeDelta / 2) *
-        Math.sin(longitudeDelta / 2)
+      const earthRadius = 6371
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    const distance = earthRadius * c
+      const latitudeDelta = ZipCodeApi.degreesFromRadians(coord2.latitude - coord1.latitude)
+      const longitudeDelta = ZipCodeApi.degreesFromRadians(coord2.longitude - coord1.longitude)
 
-    return distance
+      const a =
+        Math.sin(latitudeDelta / 2) * Math.sin(latitudeDelta / 2) +
+        Math.cos(ZipCodeApi.degreesFromRadians(coord1.latitude)) *
+          Math.cos(ZipCodeApi.degreesFromRadians(coord2.latitude)) *
+          Math.sin(longitudeDelta / 2) *
+          Math.sin(longitudeDelta / 2)
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+      const distance = earthRadius * c
+
+      log.end()
+      return distance
+    })
   }
 
   /**

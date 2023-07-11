@@ -17,7 +17,7 @@ const Login = () => {
 
   const authenticated = useSelector(isAuthenticated)
 
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const [loginInProgress, setLoginInProgress] = useState(false)
@@ -37,7 +37,7 @@ const Login = () => {
     setLoginError('')
 
     try {
-      const process = Api.loginUser(username, password)
+      const process = Api.loginUser(email, password)
       setLoginInProgress(true)
 
       const user = await process
@@ -62,7 +62,7 @@ const Login = () => {
   const onLogInFailed = () => {
     setLoginInProgress(false)
 
-    setUsername('')
+    setEmail('')
     setPassword('')
 
     setLoginError(t('features.login.invalidCredentials'))
@@ -91,11 +91,11 @@ const Login = () => {
         }}
       >
         <TextField
-          label={t('features.login.username')}
+          label={t('features.login.email')}
           variant='outlined'
-          value={username}
-          autoComplete='username'
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          autoComplete='email'
+          onChange={(e) => setEmail(e.target.value)}
           fullWidth
         />
         <TextField

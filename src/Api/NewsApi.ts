@@ -42,12 +42,18 @@ export class NewsApi {
    * @returns Information about the newspaper agency.
    */
   public static async fetchAgencyInfo(): Promise<NewspaperAgencyInfo> {
-    return {
-      name: 'Newspaper Agency',
-      city: 'Reutlingen',
-      zipCode: '72762',
-      country: 'Germany'
-    }
+    const log = ApiLog.context('fetchAgencyInfo')
+
+    return ApiUtils.delay(() => {
+      log.begin()
+      log.end()
+      return {
+        name: 'Newspaper Agency',
+        city: 'Reutlingen',
+        zipCode: '72762',
+        country: 'Germany'
+      }
+    })
   }
 
   /**
@@ -71,37 +77,39 @@ export class NewsApi {
     paymentInterval: PaymentInterval
   ): Promise<number> {
     const log = ApiLog.context('calculateNewspaperPrice')
-    const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
 
-    const newspaper = LocalPaperRawData.find((paper) => paper.title === newspaperId)
-    if (!newspaper) {
-      throw new Error(`Newspaper does not exist: ${newspaperId}`)
-    }
-
-    const coordOfNewspaperAgency = await ZipCodeApi.fetchCoordinateForZipCode(newspaperAgencyInfo.zipCode)
-
-    let coord: Coordinate
-    // if country is not the country of the newspaper agency, then the price is calculated based on the average coordinate of the country
-    if (deliveryCountry !== newspaperAgencyInfo.country) {
-      coord = await CountryApi.fetchCoordinatesOfCountry(deliveryCountry)
-    } else {
-      coord = await ZipCodeApi.fetchCoordinateForZipCode(deliveryZipCode)
-    }
-
-    const distance = await ZipCodeApi.calculateDistance(coordOfNewspaperAgency, coord)
-
-    let price = newspaper.basePrice + distance * 0.1
-    // increase price by 10% if payment interval is monthly
-    price = price * (paymentInterval === PaymentInterval.Monthly ? 1.1 : 1)
-
-    // increase price by 10% if delivery method is delivery man
-    price = price * (deliveryMethod === DeliveryMethod.DeliveryMan ? 1.1 : 1)
-
-    // decrease price by 70 % if subscription is only delivered on weekends
-    price = price * (subscriptionInterval === SubscriptionInterval.Weekends ? 0.3 : 1)
-
-    return ApiUtils.delay(() => {
+    return ApiUtils.delay(async () => {
       log.begin()
+
+      const newspaperAgencyInfo = await NewsApi.fetchAgencyInfo()
+
+      const newspaper = LocalPaperRawData.find((paper) => paper.title === newspaperId)
+      if (!newspaper) {
+        throw new Error(`Newspaper does not exist: ${newspaperId}`)
+      }
+
+      const coordOfNewspaperAgency = await ZipCodeApi.fetchCoordinateForZipCode(newspaperAgencyInfo.zipCode)
+
+      let coord: Coordinate
+      // if country is not the country of the newspaper agency, then the price is calculated based on the average coordinate of the country
+      if (deliveryCountry !== newspaperAgencyInfo.country) {
+        coord = await CountryApi.fetchCoordinatesOfCountry(deliveryCountry)
+      } else {
+        coord = await ZipCodeApi.fetchCoordinateForZipCode(deliveryZipCode)
+      }
+
+      const distance = await ZipCodeApi.calculateDistance(coordOfNewspaperAgency, coord)
+
+      let price = newspaper.basePrice + distance * 0.1
+      // increase price by 10% if payment interval is monthly
+      price = price * (paymentInterval === PaymentInterval.Monthly ? 1.1 : 1)
+
+      // increase price by 10% if delivery method is delivery man
+      price = price * (deliveryMethod === DeliveryMethod.DeliveryMan ? 1.1 : 1)
+
+      // decrease price by 70 % if subscription is only delivered on weekends
+      price = price * (subscriptionInterval === SubscriptionInterval.Weekends ? 0.3 : 1)
+
       log.end()
       return Number(price.toFixed(2))
     })

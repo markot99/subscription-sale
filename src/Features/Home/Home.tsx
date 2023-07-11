@@ -41,7 +41,7 @@ const Home = () => {
       >
         {t('features.home.header')}
       </Typography>
-      <Grid container spacing={2} alignItems='center'>
+      <Grid container spacing={2} alignItems='stretch'>
         {localPaperVersions.length > 0
           ? localPaperVersions.map((paper) => (
               <Grid item key={paper.id} xs={12} sm={12} md={6} lg={4} xl={3}>

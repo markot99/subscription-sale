@@ -38,7 +38,7 @@ const Me = () => {
     >
       <Typography variant='h3'>{t('features.me.header')}</Typography>
       <Profile />
-      <Typography variant='h3'>{t('features.me.subscriptions')}</Typography>
+      <Typography variant='h3'>{t('features.me.subscriptions.header')}</Typography>
       <ActiveSubscriptions />
     </Box>
   )

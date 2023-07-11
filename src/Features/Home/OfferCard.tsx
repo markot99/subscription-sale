@@ -12,6 +12,11 @@ const OfferCard = (props: { paper: LocalPaperVersion }) => {
   return (
     <Card
       sx={{
+        width: 1,
+        height: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         boxShadow: 4,
         ':hover': {
           boxShadow: 10
@@ -19,7 +24,7 @@ const OfferCard = (props: { paper: LocalPaperVersion }) => {
       }}
     >
       <CardMedia component='img' image={paper.imageUrl} height={200} />
-      <CardContent>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography component='div' variant='h5'>
           {paper.title}
         </Typography>

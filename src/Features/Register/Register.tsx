@@ -18,9 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { Api } from '../../Api/Api'
-import { AlertSeverity } from '../../Models/Alert'
 import { User, UserTitle } from '../../Models/User'
-import { setAlert } from '../../Store/Slices/AlertSlice/AlertSlice'
 import { authenticate, isAuthenticated } from '../../Store/Slices/Auth/AuthSlice'
 import { cachedSubscription } from '../../Store/Slices/SubscriptionSlice/SubscriptionSlice'
 
@@ -86,8 +84,23 @@ const Register = () => {
       return false
     }
 
+    const emailRegex = new RegExp(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
+
+    const emailValid = emailRegex.test(email)
+    if (!emailValid) {
+      setEmailError(t('features.register.invalid.emailFormat'))
+      return false
+    }
+
     if (!password) {
       setPasswordError(t('features.register.invalid.password'))
+      return false
+    }
+
+    if (password.length < 4) {
+      setPasswordError(t('features.register.invalid.passwordLength'))
       return false
     }
 
@@ -134,13 +147,6 @@ const Register = () => {
       setRegisterError(t('features.register.error.failed'))
       setRegisterInProgress(false)
 
-      dispatch(
-        setAlert({
-          message: 'Test',
-          severity: AlertSeverity.Error,
-          timeout: 5
-        })
-      )
       return
     }
 

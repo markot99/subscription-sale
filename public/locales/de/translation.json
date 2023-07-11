@@ -58,13 +58,13 @@
     },
     "login": {
       "header": "Anmelden",
-      "username": "Benutzername",
+      "email": "E-Mail",
       "password": "Passwort",
       "rememberMe": "Angemeldet bleiben?",
       "submit": "Anmelden",
       "forgotPassword": "Passwort vergessen?",
       "registerNow": "Neu hier? Jetzt registrieren!",
-      "invalidCredentials": "Benutzername oder Passwort falsch!"
+      "invalidCredentials": "E-Mail oder Passwort falsch!"
     },
     "register": {
       "header": "Registrieren",
@@ -86,7 +86,9 @@
         "firstName": "Vorname ist erforderlich!",
         "lastName": "Nachname ist erforderlich!",
         "email": "E-Mail ist erforderlich!",
-        "password": "Passwort ist erforderlich!"
+        "emailFormat": "E-Mail ist nicht gültig!",
+        "password": "Passwort ist erforderlich!",
+        "passwordLength": "Passwort muss mindestens 4 Zeichen lang sein!"
       },
       "error": {
         "failed": "Registrierung fehlgeschlagen! Es existiert bereits ein Benutzer mit dieser E-Mail Adresse!"
@@ -94,7 +96,6 @@
     },
     "me": {
       "header": "Persönliche Daten",
-      "subscriptions": "Meine Abos",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail",
@@ -106,7 +107,13 @@
       "location": "Ort",
       "country": "Land",
       "save": "Speichern",
-      "noActiveSubscriptions": "Sie haben keine aktiven Abos!"
+      "noActiveSubscriptions": "Sie haben keine aktiven Abos!",
+      "subscriptions": {
+        "header": "Meine Abos",
+        "interval": "Ausgabe",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich"
+      }
     },
     "checkout": {
       "invoice": {

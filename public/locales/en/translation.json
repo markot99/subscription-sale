@@ -58,13 +58,13 @@
     },
     "login": {
       "header": "Log In",
-      "username": "Username",
+      "email": "Email",
       "password": "Password",
       "rememberMe": "Remember Me?",
       "submit": "Log In",
       "forgotPassword": "Forgot Password?",
       "registerNow": "New here? Register now!",
-      "invalidCredentials": "Invalid Credentials"
+      "invalidCredentials": "Invalid Credentials!"
     },
     "register": {
       "header": "Register",
@@ -86,7 +86,9 @@
         "firstName": "First Name is required!",
         "lastName": "Last Name is required!",
         "email": "Email is required!",
-        "password": "Password is required!"
+        "emailFormat": "Email is not valid!",
+        "password": "Password is required!",
+        "passwordLength": "Password must be at least 4 characters long!"
       },
       "error": {
         "failed": "Registration failed! A user with the given email already exists!"
@@ -94,7 +96,6 @@
     },
     "me": {
       "header": "My Account",
-      "subscriptions": "My Subscriptions",
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
@@ -106,7 +107,13 @@
       "location": "Location",
       "country": "Country",
       "save": "Save",
-      "noActiveSubscriptions": "You do not have any active subscriptions!"
+      "noActiveSubscriptions": "You do not have any active subscriptions!",
+      "subscriptions": {
+        "header": "My Subscriptions",
+        "interval": "Interval",
+        "daily": "Daily",
+        "weekly": "Weekly"
+      }
     },
     "checkout": {
       "invoice": {
