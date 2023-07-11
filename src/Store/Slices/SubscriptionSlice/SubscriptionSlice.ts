@@ -77,7 +77,7 @@ const subscriptionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(refreshPrice.fulfilled, (state, action) => {
-      state.subscription = action.payload
+      state.subscription.price = action.payload
     })
     builder.addCase(setSubscription.rejected, (state, action) => {
       console.log(action.error.message)
@@ -208,10 +208,7 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
         subscription.deliveryMethod,
         subscription.paymentInterval
       )
-      return {
-        ...subscription,
-        price: price
-      }
+      return price
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('Zip code does not exist')) {
@@ -221,7 +218,7 @@ export const refreshPrice = createAsyncThunk('subscription/refreshPrice', async 
       }
     }
   }
-  return subscription
+  return subscription.price
 })
 
 export const cachedSubscription = createSelector(
