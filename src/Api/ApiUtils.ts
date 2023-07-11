@@ -5,12 +5,12 @@ export class ApiDefaults {
   /**
    * The default minimum delay.
    */
-  public static readonly defaultMinDelay = 1000
+  public static readonly defaultMinDelay = 500
 
   /**
    * The default maximum delay.
    */
-  public static readonly defaultMaxDelay = 5000
+  public static readonly defaultMaxDelay = 2000
 }
 
 /**
