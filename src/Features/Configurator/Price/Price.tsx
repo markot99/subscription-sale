@@ -19,7 +19,7 @@ function Price() {
         <Box width={'100%'}>
           {subscription.price ? (
             <Typography variant='h3' sx={{ paddingLeft: '2em' }}>
-              {subscription.price}
+              {subscription.price.toFixed(2)}
             </Typography>
           ) : subscriptionIsValid(subscription) ? (
             <Typography variant='h3' sx={{ paddingLeft: '2em' }}>
